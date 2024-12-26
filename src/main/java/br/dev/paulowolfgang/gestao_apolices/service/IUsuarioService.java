@@ -9,7 +9,6 @@ public interface IUsuarioService {
 
     Usuario salvar(Usuario usuario);
     Optional<Usuario> buscarPorId(Long id);
-    Optional<Usuario> buscarPorEmail(String email);
     List<Usuario> listarTodos();
     Usuario atualizar(Long id, Usuario usuarioAtualizado);
     void remover(Long id);

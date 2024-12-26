@@ -28,11 +28,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public Optional<Usuario> buscarPorEmail(String email) {
-        return iUsuarioRepository.findByEmail(email);
-    }
-
-    @Override
     public List<Usuario> listarTodos() {
         return iUsuarioRepository.findAll();
     }
