@@ -25,9 +25,11 @@ public abstract class Cliente {
     @Column(nullable = false, length = 100)
     private String email;
 
+    @NotNull
     @Column(length = 255)
     private String endereco;
 
+    @NotNull
     @Column(length = 20)
     private String telefone;
 
