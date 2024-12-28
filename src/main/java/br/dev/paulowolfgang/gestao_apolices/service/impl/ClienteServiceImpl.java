@@ -66,7 +66,6 @@ public class ClienteServiceImpl implements IClienteService {
                 }).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
     }
 
-
     @Override
     public void remover(Long id) {
         clienteRepository.deleteById(id);

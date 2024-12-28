@@ -10,15 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
-
 @RestController
 @RequestMapping(path = "/api/v1/usuarios")
 public class UsuarioController {
 
     private final UsuarioServiceImpl usuarioService;
 
-    public UsuarioController(UsuarioServiceImpl usuarioService) {
+    public UsuarioController(UsuarioServiceImpl usuarioService)
+    {
         this.usuarioService = usuarioService;
     }
 
@@ -45,16 +44,16 @@ public class UsuarioController {
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioAtualizado)
     {
-        try{
+        try {
             Usuario usuario = usuarioService.atualizar(id, usuarioAtualizado);
             return ResponseEntity.ok(usuario);
-        }catch(IllegalArgumentException e){
+        } catch(IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarUsuario(@PathVariable Long id)
+    public ResponseEntity<Void> removerUsuario(@PathVariable Long id)
     {
         usuarioService.remover(id);
         return ResponseEntity.noContent().build();
