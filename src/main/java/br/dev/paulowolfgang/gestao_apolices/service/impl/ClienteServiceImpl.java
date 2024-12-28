@@ -62,7 +62,7 @@ public class ClienteServiceImpl implements IClienteService {
                         throw new IllegalArgumentException("Tipo de cliente inválido ou incompatível para atualização.");
                     }
 
-                    return clienteRepository.save(clienteExistente);
+                    return IClienteRepository.save(clienteExistente);
                 }).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
     }
 

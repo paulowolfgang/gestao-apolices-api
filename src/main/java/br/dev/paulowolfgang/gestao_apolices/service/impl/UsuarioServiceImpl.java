@@ -11,41 +11,41 @@ import java.util.Optional;
 @Service
 public class UsuarioServiceImpl implements IUsuarioService {
 
-    private final IUsuarioRepository iUsuarioRepository;
+    private final IUsuarioRepository usuarioRepository;
 
     public UsuarioServiceImpl(IUsuarioRepository iUsuarioRepository) {
-        this.iUsuarioRepository = iUsuarioRepository;
+        this.usuarioRepository = iUsuarioRepository;
     }
 
     @Override
     public Usuario salvar(Usuario usuario) {
-        return iUsuarioRepository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
     @Override
     public Optional<Usuario> buscarPorId(Long id) {
-        return iUsuarioRepository.findById(id);
+        return usuarioRepository.findById(id);
     }
 
     @Override
     public List<Usuario> listarTodos() {
-        return iUsuarioRepository.findAll();
+        return usuarioRepository.findAll();
     }
 
     @Override
     public Usuario atualizar(Long id, Usuario usuarioAtualizado) {
-        return iUsuarioRepository.findById(id)
+        return usuarioRepository.findById(id)
                 .map(usuarioExistente -> {
                     usuarioExistente.setNome(usuarioAtualizado.getNome());
                     usuarioExistente.setEmail(usuarioAtualizado.getEmail());
                     usuarioExistente.setSenha(usuarioAtualizado.getSenha());
                     usuarioExistente.setPapel(usuarioAtualizado.getPapel());
-                    return iUsuarioRepository.save(usuarioExistente);
+                    return usuarioRepository.save(usuarioExistente);
                 }).orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado para o ID: " + id));
     }
 
     @Override
     public void remover(Long id) {
-        iUsuarioRepository.deleteById(id);
+        usuarioRepository.deleteById(id);
     }
 }
