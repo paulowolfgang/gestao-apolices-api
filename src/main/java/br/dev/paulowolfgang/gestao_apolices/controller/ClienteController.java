@@ -1,6 +1,7 @@
 package br.dev.paulowolfgang.gestao_apolices.controller;
 
 import br.dev.paulowolfgang.gestao_apolices.entity.Cliente;
+import br.dev.paulowolfgang.gestao_apolices.entity.Usuario;
 import br.dev.paulowolfgang.gestao_apolices.service.impl.ClienteServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,15 @@ public class ClienteController {
     @PostMapping
     public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente)
     {
+        Long idUsuarioSimulado = 1L;
+
+        // Criando um objeto Usuario com o ID fixo
+        Usuario usuarioSimulado = new Usuario();
+        usuarioSimulado.setId(idUsuarioSimulado);
+
+        // Definindo o usuário no cliente
+        cliente.setUsuario(usuarioSimulado);
+
         Cliente novoCliente = clienteService.salvar(cliente);
         return ResponseEntity.ok(novoCliente);
     }

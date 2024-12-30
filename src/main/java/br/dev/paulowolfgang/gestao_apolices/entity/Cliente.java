@@ -1,9 +1,21 @@
 package br.dev.paulowolfgang.gestao_apolices.entity;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "tipo" // Campo no JSON que indicará o tipo de cliente
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ClienteFisico.class, name = "FISICO"),
+        @JsonSubTypes.Type(value = ClienteJuridico.class, name = "JURIDICO")
+})
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -50,6 +62,14 @@ public abstract class Cliente {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public String getEmail() {

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @DiscriminatorValue("JURIDICO")
-public class ClienteJuridico extends Cliente{
+public class ClienteJuridico extends Cliente {
 
     @Column(name = "nome_fantasia", nullable = false, length = 100)
     private String nomeFantasia;
@@ -19,7 +19,7 @@ public class ClienteJuridico extends Cliente{
     @Column(nullable = false, unique = true, length = 18)
     private String cnpj;
 
-    @Column(name = "data_abertura", nullable = false)
+    @Column(name = "data_abertura")
     private LocalDateTime dataAbertura;
 
     protected ClienteJuridico() {}
