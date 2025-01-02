@@ -1,4 +1,3 @@
--- Remover comportamento automático dos campos de data
 ALTER TABLE clientes
     MODIFY COLUMN data_nascimento TIMESTAMP NULL;
 
