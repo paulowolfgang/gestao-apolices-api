@@ -17,29 +17,36 @@ public class PagamentoServiceImpl implements IPagamentoService {
         this.pagamentoRepository = pagamentoRepository;
     }
 
-
     @Override
     public Pagamento salvar(Pagamento pagamento) {
-        return null;
+        return pagamentoRepository.save(pagamento);
     }
 
     @Override
     public Optional<Pagamento> buscarPorId(Long id) {
-        return Optional.empty();
+        return pagamentoRepository.findById(id);
     }
 
     @Override
     public List<Pagamento> listarTodos() {
-        return null;
+        return pagamentoRepository.findAll();
     }
 
     @Override
     public Pagamento atualizar(Long id, Pagamento pagamentoAtualizado) {
-        return null;
+        return pagamentoRepository.findById(id)
+                .map(pagamentoExistente -> {
+                    pagamentoExistente.setApolice(pagamentoAtualizado.getApolice());
+                    pagamentoExistente.setValor(pagamentoAtualizado.getValor());
+                    pagamentoExistente.setDataVencimento(pagamentoAtualizado.getDataVencimento());
+                    pagamentoExistente.setDataPagamento(pagamentoAtualizado.getDataPagamento());
+                    pagamentoExistente.setStatus(pagamentoAtualizado.getStatus());
+                    return pagamentoRepository.save(pagamentoExistente);
+                }).orElseThrow(() -> new IllegalArgumentException("Pagamento não encontrado para o ID: " + id));
     }
 
     @Override
     public void remover(Long id) {
-
+        pagamentoRepository.deleteById(id);
     }
 }
