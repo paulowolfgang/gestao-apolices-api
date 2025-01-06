@@ -20,26 +20,35 @@ public class SinistroServiceImpl implements ISinistroService {
 
     @Override
     public Sinistro salvar(Sinistro sinistro) {
-        return null;
+        return sinistroRepository.save(sinistro);
     }
 
     @Override
     public Optional<Sinistro> buscarPorId(Long id) {
-        return Optional.empty();
+        return sinistroRepository.findById(id);
     }
 
     @Override
     public List<Sinistro> listarTodos() {
-        return null;
+        return sinistroRepository.findAll();
     }
 
     @Override
     public Sinistro atualizar(Long id, Sinistro sinistroAtualizado) {
-        return null;
+        return sinistroRepository.findById(id)
+                .map(sinistroExistente -> {
+                    sinistroExistente.setApolice(sinistroAtualizado.getApolice());
+                    sinistroExistente.setNumero(sinistroAtualizado.getNumero());
+                    sinistroExistente.setDescricao(sinistroAtualizado.getDescricao());
+                    sinistroExistente.setDataOcorrido(sinistroAtualizado.getDataOcorrido());
+                    sinistroExistente.setValorEstimado(sinistroAtualizado.getValorEstimado());
+                    sinistroExistente.setStatus(sinistroAtualizado.getStatus());
+                    return sinistroRepository.save(sinistroExistente);
+                }).orElseThrow(() -> new IllegalArgumentException("Sinistro não encontrado para o ID: " + id));
     }
 
     @Override
     public void remover(Long id) {
-
+        sinistroRepository.deleteById(id);
     }
 }
