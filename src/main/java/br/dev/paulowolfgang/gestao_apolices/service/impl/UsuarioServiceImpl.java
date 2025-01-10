@@ -1,5 +1,8 @@
 package br.dev.paulowolfgang.gestao_apolices.service.impl;
 
+import br.dev.paulowolfgang.gestao_apolices.dto.mapper.UsuarioMapper;
+import br.dev.paulowolfgang.gestao_apolices.dto.request.UsuarioRequestDto;
+import br.dev.paulowolfgang.gestao_apolices.dto.response.UsuarioResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.entity.Usuario;
 import br.dev.paulowolfgang.gestao_apolices.repository.IUsuarioRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.IUsuarioService;
@@ -18,34 +21,42 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public Usuario salvar(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public UsuarioResponseDto salvar(UsuarioRequestDto usuarioRequest) {
+        Usuario usuario = UsuarioMapper.converter(usuarioRequest);
+        usuario = usuarioRepository.save(usuario);
+        return UsuarioMapper.converter(usuario);
     }
 
     @Override
-    public Optional<Usuario> buscarPorId(Long id) {
-        return usuarioRepository.findById(id);
+    public UsuarioResponseDto buscarPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado para o ID: " + id));
+        return UsuarioMapper.converter(usuario);
     }
 
     @Override
-    public List<Usuario> listarTodos() {
-        return usuarioRepository.findAll();
+    public List<UsuarioResponseDto> listarTodos() {
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        return usuarios.stream()
+                .map(UsuarioMapper::converter)
+                .toList();
     }
 
     @Override
-    public Usuario atualizar(Long id, Usuario usuarioAtualizado) {
-        return usuarioRepository.findById(id)
-                .map(usuarioExistente -> {
-                    usuarioExistente.setNome(usuarioAtualizado.getNome());
-                    usuarioExistente.setEmail(usuarioAtualizado.getEmail());
-                    usuarioExistente.setSenha(usuarioAtualizado.getSenha());
-                    usuarioExistente.setPapel(usuarioAtualizado.getPapel());
-                    return usuarioRepository.save(usuarioExistente);
-                }).orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado para o ID: " + id));
+    public UsuarioResponseDto atualizar(Long id, UsuarioRequestDto usuarioAtualizado) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado para o ID: " + id));
+        UsuarioMapper.copiarParaPropriedades(usuarioAtualizado, usuario);
+        usuario = usuarioRepository.save(usuario);
+
+        return UsuarioMapper.converter(usuario);
     }
 
     @Override
     public void remover(Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new IllegalArgumentException("Usuário não encontrado para o ID: " + id);
+        }
         usuarioRepository.deleteById(id);
     }
 }

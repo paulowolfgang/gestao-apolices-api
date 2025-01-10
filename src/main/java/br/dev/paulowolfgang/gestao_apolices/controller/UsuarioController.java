@@ -1,8 +1,10 @@
 package br.dev.paulowolfgang.gestao_apolices.controller;
 
-import br.dev.paulowolfgang.gestao_apolices.entity.Usuario;
-import br.dev.paulowolfgang.gestao_apolices.service.impl.UsuarioServiceImpl;
+import br.dev.paulowolfgang.gestao_apolices.dto.request.UsuarioRequestDto;
+import br.dev.paulowolfgang.gestao_apolices.dto.response.UsuarioResponseDto;
+import br.dev.paulowolfgang.gestao_apolices.service.IUsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
@@ -14,49 +16,43 @@ import java.util.Optional;
 @RequestMapping(path = "/api/v1/usuarios")
 public class UsuarioController {
 
-    private final UsuarioServiceImpl usuarioService;
+    private final IUsuarioService usuarioService;
 
-    public UsuarioController(UsuarioServiceImpl usuarioService)
+    public UsuarioController(IUsuarioService usuarioService)
     {
         this.usuarioService = usuarioService;
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario)
+    public ResponseEntity<UsuarioResponseDto> salvar(@RequestBody UsuarioRequestDto request)
     {
-        Usuario novoUsuario = usuarioService.salvar(usuario);
-        return ResponseEntity.ok(novoUsuario);
+        UsuarioResponseDto response = usuarioService.salvar(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable Long id)
+    public ResponseEntity<UsuarioResponseDto> buscarPorId(@PathVariable Long id)
     {
-        Optional<Usuario> usuario = usuarioService.buscarPorId(id);
-        return usuario.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(usuarioService.buscarPorId(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> listarTodosOsUsuarios()
+    public ResponseEntity<List<UsuarioResponseDto>> listarTodos()
     {
-        return ResponseEntity.ok(usuarioService.listarTodos());
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.listarTodos());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioAtualizado)
+    public ResponseEntity<UsuarioResponseDto> atualizar(@PathVariable Long id, @RequestBody UsuarioRequestDto request)
     {
-        try {
-            Usuario usuario = usuarioService.atualizar(id, usuarioAtualizado);
-            return ResponseEntity.ok(usuario);
-        } catch(IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> removerUsuario(@PathVariable Long id)
+    public ResponseEntity<Void> remover(@PathVariable Long id)
     {
         usuarioService.remover(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping("/csrf-token")
