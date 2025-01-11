@@ -1,8 +1,9 @@
 package br.dev.paulowolfgang.gestao_apolices.controller;
 
-import br.dev.paulowolfgang.gestao_apolices.entity.Cliente;
-import br.dev.paulowolfgang.gestao_apolices.entity.Usuario;
-import br.dev.paulowolfgang.gestao_apolices.service.impl.ClienteServiceImpl;
+import br.dev.paulowolfgang.gestao_apolices.dto.request.ClienteRequestDto;
+import br.dev.paulowolfgang.gestao_apolices.dto.response.ClienteResponseDto;
+import br.dev.paulowolfgang.gestao_apolices.service.IClienteService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,58 +13,42 @@ import java.util.List;
 @RequestMapping("/api/v1/clientes")
 public class ClienteController {
 
-    private final ClienteServiceImpl clienteService;
+    private final IClienteService clienteService;
 
-    public ClienteController(ClienteServiceImpl clienteService)
+    public ClienteController(IClienteService clienteService)
     {
         this.clienteService = clienteService;
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente)
+    public ResponseEntity<ClienteResponseDto> salvar(@RequestBody ClienteRequestDto request)
     {
-        Long idUsuarioSimulado = 1L;
-
-        // Criando um objeto Usuario com o ID fixo
-        Usuario usuarioSimulado = new Usuario();
-        usuarioSimulado.setId(idUsuarioSimulado);
-
-        // Definindo o usuário no cliente
-        cliente.setUsuario(usuarioSimulado);
-
-        Cliente novoCliente = clienteService.salvar(cliente);
-        return ResponseEntity.ok(novoCliente);
+        ClienteResponseDto response = clienteService.salvar(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> buscarClientePorId(@PathVariable Long id)
+    public ResponseEntity<ClienteResponseDto> buscarPorId(@PathVariable Long id)
     {
-        return clienteService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.status(HttpStatus.OK).body(clienteService.buscarPorId(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> listarTodosOsClientes()
+    public ResponseEntity<List<ClienteResponseDto>> listarTodos()
     {
-        return ResponseEntity.ok(clienteService.listarTodos());
+        return ResponseEntity.status(HttpStatus.OK).body(clienteService.listarTodos());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id, @RequestBody Cliente clienteAtualizado)
+    public ResponseEntity<ClienteResponseDto> atualizar(@PathVariable Long id, @RequestBody ClienteRequestDto request)
     {
-        try {
-            Cliente cliente = clienteService.atualizar(id, clienteAtualizado);
-            return ResponseEntity.ok(cliente);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(clienteService.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> removerCliente(@PathVariable Long id)
+    public ResponseEntity<Void> remover(@PathVariable Long id)
     {
         clienteService.remover(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

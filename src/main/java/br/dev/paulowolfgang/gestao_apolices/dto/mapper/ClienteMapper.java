@@ -33,7 +33,26 @@ public class ClienteMapper {
         throw new IllegalArgumentException("Tipo de Cliente desconhecido.");
     }
 
-    public static void copiarParaPropriedades(ClienteRequestDto request, Cliente cliente) {
-        mapper.map(request, cliente);
+    public static void copiarParaPropriedades(ClienteRequestDto dto, Cliente cliente) {
+        cliente.setEmail(dto.getEmail());
+        cliente.setEndereco(dto.getEndereco());
+        cliente.setTelefone(dto.getTelefone());
+
+        if (cliente instanceof ClienteFisico && dto instanceof ClienteFisicoRequestDto) {
+            ClienteFisico clienteFisico = (ClienteFisico) cliente;
+            ClienteFisicoRequestDto clienteFisicoDto = (ClienteFisicoRequestDto) dto;
+            clienteFisico.setNome(clienteFisicoDto.getNome());
+            clienteFisico.setCpf(clienteFisicoDto.getCpf());
+            clienteFisico.setDataNascimento(clienteFisicoDto.getDataNascimento());
+        } else if (cliente instanceof ClienteJuridico && dto instanceof ClienteJuridicoRequestDto) {
+            ClienteJuridico clienteJuridico = (ClienteJuridico) cliente;
+            ClienteJuridicoRequestDto clienteJuridicoDto = (ClienteJuridicoRequestDto) dto;
+            clienteJuridico.setNomeFantasia(clienteJuridicoDto.getNomeFantasia());
+            clienteJuridico.setRazaoSocial(clienteJuridicoDto.getRazaoSocial());
+            clienteJuridico.setCnpj(clienteJuridicoDto.getCnpj());
+            clienteJuridico.setDataAbertura(clienteJuridicoDto.getDataAbertura());
+        } else {
+            throw new IllegalArgumentException("Tipo de cliente incompatível para cópia de propriedades.");
+        }
     }
 }

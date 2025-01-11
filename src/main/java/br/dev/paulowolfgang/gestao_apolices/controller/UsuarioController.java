@@ -32,7 +32,7 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponseDto> buscarPorId(@PathVariable Long id)
     {
-        return ResponseEntity.ok(usuarioService.buscarPorId(id));
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.buscarPorId(id));
     }
 
     @GetMapping
