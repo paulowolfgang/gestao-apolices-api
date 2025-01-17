@@ -1,5 +1,17 @@
 package br.dev.paulowolfgang.gestao_apolices.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "tipo"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = ClienteFisicoRequestDto.class, name = "FISICO"),
+        @JsonSubTypes.Type(value = ClienteJuridicoRequestDto.class, name = "JURIDICO")
+})
 public class ClienteRequestDto {
 
     private Long usuarioId;

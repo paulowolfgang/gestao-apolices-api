@@ -10,7 +10,7 @@ import java.util.Objects;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
-        property = "tipo" // Campo no JSON que indicará o tipo de cliente
+        property = "tipo"
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ClienteFisico.class, name = "FISICO"),
