@@ -47,7 +47,6 @@ public class UsuarioServiceImpl implements IUsuarioService {
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado para o ID: " + id));
         UsuarioMapper.copiarParaPropriedades(usuarioAtualizado, usuario);
         usuario = usuarioRepository.save(usuario);
-
         return UsuarioMapper.converter(usuario);
     }
 

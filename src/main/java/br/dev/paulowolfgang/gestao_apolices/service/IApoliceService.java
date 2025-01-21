@@ -1,17 +1,15 @@
 package br.dev.paulowolfgang.gestao_apolices.service;
 
-
-import br.dev.paulowolfgang.gestao_apolices.entity.Apolice;
+import br.dev.paulowolfgang.gestao_apolices.dto.request.ApoliceRequestDto;
+import br.dev.paulowolfgang.gestao_apolices.dto.response.ApoliceResponseDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IApoliceService {
-
-    Apolice salvar(Apolice apolice);
-    Optional<Apolice> buscarPorId(Long id);
-    List<Apolice> listarTodas();
-    Optional<Apolice> buscarPorNumero(String numero);
-    Apolice atualizar(Long id, Apolice apoliceAtualizada);
+    ApoliceResponseDto salvar(ApoliceRequestDto apolice);
+    ApoliceResponseDto buscarPorId(Long id);
+    List<ApoliceResponseDto> listarTodos();
+    ApoliceResponseDto buscarPorNumero(String numero);
+    ApoliceResponseDto atualizar(Long id, ApoliceRequestDto apoliceAtualizada);
     void remover(Long id);
 }

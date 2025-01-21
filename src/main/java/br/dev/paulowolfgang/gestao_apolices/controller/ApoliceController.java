@@ -1,7 +1,10 @@
 package br.dev.paulowolfgang.gestao_apolices.controller;
 
+import br.dev.paulowolfgang.gestao_apolices.dto.request.ApoliceRequestDto;
+import br.dev.paulowolfgang.gestao_apolices.dto.response.ApoliceResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.entity.Apolice;
 import br.dev.paulowolfgang.gestao_apolices.service.IApoliceService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,51 +21,34 @@ public class ApoliceController {
     }
 
     @PostMapping
-    public ResponseEntity<Apolice> criar(@RequestBody Apolice apolice)
-    {
-        Apolice novaApolice = apoliceService.salvar(apolice);
-        return ResponseEntity.ok(novaApolice);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Apolice>> listarTodas()
-    {
-        List<Apolice> apolices = apoliceService.listarTodas();
-        return ResponseEntity.ok(apolices);
+    public ResponseEntity<ApoliceResponseDto> salvar(@RequestBody ApoliceRequestDto request){
+        ApoliceResponseDto response = apoliceService.salvar(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Apolice> buscarPorId(@PathVariable Long id){
-        return apoliceService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ApoliceResponseDto> buscarPorId(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(apoliceService.buscarPorId(id));
+    }
 
+    @GetMapping
+    public ResponseEntity<List<ApoliceResponseDto>> listarTodos(){
+        return ResponseEntity.status(HttpStatus.OK).body(apoliceService.listarTodos());
     }
 
     @GetMapping("/numero/{numero}")
-    public ResponseEntity<Apolice> buscarPorNumero(@PathVariable String numero) {
-        return apoliceService.buscarPorNumero(numero)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ApoliceResponseDto> buscarPorNumero(@PathVariable String numero) {
+        return ResponseEntity.status(HttpStatus.OK).body(apoliceService.buscarPorNumero(numero));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Apolice> atualizar(@PathVariable Long id, @RequestBody Apolice apoliceAtualizada) {
-        try {
-            Apolice apolice = apoliceService.atualizar(id, apoliceAtualizada);
-            return ResponseEntity.ok(apolice);
-        } catch (IllegalArgumentException ex) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ApoliceResponseDto> atualizar(@PathVariable Long id, @RequestBody ApoliceRequestDto request) {
+        return ResponseEntity.status(HttpStatus.OK).body(apoliceService.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remover(@PathVariable Long id) {
-        try {
-            apoliceService.remover(id);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException ex) {
-            return ResponseEntity.notFound().build();
-        }
+        apoliceService.remover(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

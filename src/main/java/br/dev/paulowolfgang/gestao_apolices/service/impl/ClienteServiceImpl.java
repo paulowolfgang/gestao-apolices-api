@@ -22,14 +22,14 @@ public class ClienteServiceImpl implements IClienteService {
 
     @Override
     public ClienteResponseDto salvar(ClienteRequestDto request) {
-        Cliente cliente = ClienteMapper.converter(request);
 
         // Simulação de um usuário temporário com ID fixo
         Long idUsuarioSimulado = 1L;
         Usuario usuarioSimulado = new Usuario();
         usuarioSimulado.setId(idUsuarioSimulado);
-        cliente.setUsuario(usuarioSimulado);
 
+        Cliente cliente = ClienteMapper.converter(request);
+        cliente.setUsuario(usuarioSimulado);
         cliente = clienteRepository.save(cliente);
         return ClienteMapper.converter(cliente);
     }
