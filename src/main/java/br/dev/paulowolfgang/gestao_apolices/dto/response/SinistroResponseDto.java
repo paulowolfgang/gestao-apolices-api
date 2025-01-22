@@ -1,0 +1,74 @@
+package br.dev.paulowolfgang.gestao_apolices.dto.response;
+
+import br.dev.paulowolfgang.gestao_apolices.entity.Apolice;
+import br.dev.paulowolfgang.gestao_apolices.entity.Sinistro;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+public class SinistroResponseDto {
+
+    private Long id;
+    private Apolice apolice;
+    private String numero;
+    private String descricao;
+    private LocalDate dataOcorrido;
+    private BigDecimal valorEstimado;
+    private Sinistro.Status status = Sinistro.Status.EM_ANALISE;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Apolice getApolice() {
+        return apolice;
+    }
+
+    public void setApolice(Apolice apolice) {
+        this.apolice = apolice;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public LocalDate getDataOcorrido() {
+        return dataOcorrido;
+    }
+
+    public void setDataOcorrido(LocalDate dataOcorrido) {
+        this.dataOcorrido = dataOcorrido;
+    }
+
+    public BigDecimal getValorEstimado() {
+        return valorEstimado;
+    }
+
+    public void setValorEstimado(BigDecimal valorEstimado) {
+        this.valorEstimado = valorEstimado;
+    }
+
+    public Sinistro.Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Sinistro.Status status) {
+        this.status = status;
+    }
+}
