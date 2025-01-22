@@ -1,7 +1,9 @@
 package br.dev.paulowolfgang.gestao_apolices.controller;
 
-import br.dev.paulowolfgang.gestao_apolices.entity.Sinistro;
+import br.dev.paulowolfgang.gestao_apolices.dto.request.SinistroRequestDto;
+import br.dev.paulowolfgang.gestao_apolices.dto.response.SinistroResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.service.ISinistroService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,41 +20,29 @@ public class SinistroController {
     }
 
     @PostMapping
-    public ResponseEntity<Sinistro> criar(@RequestBody Sinistro sinistro){
-        Sinistro novoSinistro = sinistroService.salvar(sinistro);
-        return ResponseEntity.ok(novoSinistro);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Sinistro>> listarTodos(){
-        List<Sinistro> sinistros = sinistroService.listarTodos();
-        return ResponseEntity.ok(sinistros);
+    public ResponseEntity<SinistroResponseDto> salvar(@RequestBody SinistroRequestDto request){
+        SinistroResponseDto response = sinistroService.salvar(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Sinistro> buscarPorId(@PathVariable Long id){
-        return sinistroService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<SinistroResponseDto> buscarPorId(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(sinistroService.buscarPorId(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<SinistroResponseDto>> listarTodos(){
+         return ResponseEntity.status(HttpStatus.OK).body(sinistroService.listarTodos());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Sinistro> atualizar(@PathVariable Long id, @RequestBody Sinistro sinistroAtualizado){
-        try {
-            Sinistro sinistro = sinistroService.atualizar(id, sinistroAtualizado);
-            return ResponseEntity.ok(sinistro);
-        } catch (IllegalArgumentException ex){
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<SinistroResponseDto> atualizar(@PathVariable Long id, @RequestBody SinistroRequestDto request){
+        return ResponseEntity.status(HttpStatus.OK).body(sinistroService.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remover(@PathVariable Long id){
-        try{
-            sinistroService.remover(id);
-            return ResponseEntity.noContent().build();
-        } catch(IllegalArgumentException ex){
-            return ResponseEntity.notFound().build();
-        }
+        sinistroService.remover(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

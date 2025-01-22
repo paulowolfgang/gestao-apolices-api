@@ -1,12 +1,14 @@
 package br.dev.paulowolfgang.gestao_apolices.service.impl;
 
+import br.dev.paulowolfgang.gestao_apolices.dto.mapper.SinistroMapper;
+import br.dev.paulowolfgang.gestao_apolices.dto.request.SinistroRequestDto;
+import br.dev.paulowolfgang.gestao_apolices.dto.response.SinistroResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.entity.Sinistro;
 import br.dev.paulowolfgang.gestao_apolices.repository.ISinistroRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.ISinistroService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SinistroServiceImpl implements ISinistroService {
@@ -17,38 +19,41 @@ public class SinistroServiceImpl implements ISinistroService {
         this.sinistroRepository = sinistroRepository;
     }
 
-
     @Override
-    public Sinistro salvar(Sinistro sinistro) {
-        return sinistroRepository.save(sinistro);
+    public SinistroResponseDto salvar(SinistroRequestDto request) {
+        Sinistro sinistro = SinistroMapper.converter(request);
+        sinistro = sinistroRepository.save(sinistro);
+        return SinistroMapper.converter(sinistro);
     }
 
     @Override
-    public Optional<Sinistro> buscarPorId(Long id) {
-        return sinistroRepository.findById(id);
+    public SinistroResponseDto buscarPorId(Long id) {
+        Sinistro sinistro = sinistroRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Sinistro não encontrado para o ID: " + id));
+        return SinistroMapper.converter(sinistro);
     }
 
     @Override
-    public List<Sinistro> listarTodos() {
-        return sinistroRepository.findAll();
+    public List<SinistroResponseDto> listarTodos() {
+        List<Sinistro> sinistros = sinistroRepository.findAll();
+        return sinistros.stream()
+                .map(SinistroMapper::converter)
+                .toList();
     }
 
     @Override
-    public Sinistro atualizar(Long id, Sinistro sinistroAtualizado) {
-        return sinistroRepository.findById(id)
-                .map(sinistroExistente -> {
-                    sinistroExistente.setApolice(sinistroAtualizado.getApolice());
-                    sinistroExistente.setNumero(sinistroAtualizado.getNumero());
-                    sinistroExistente.setDescricao(sinistroAtualizado.getDescricao());
-                    sinistroExistente.setDataOcorrido(sinistroAtualizado.getDataOcorrido());
-                    sinistroExistente.setValorEstimado(sinistroAtualizado.getValorEstimado());
-                    sinistroExistente.setStatus(sinistroAtualizado.getStatus());
-                    return sinistroRepository.save(sinistroExistente);
-                }).orElseThrow(() -> new IllegalArgumentException("Sinistro não encontrado para o ID: " + id));
+    public SinistroResponseDto atualizar(Long id, SinistroRequestDto sinistroAtualizado) {
+        Sinistro sinistro = sinistroRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Sinistro não encontrado para o ID: " + id));
+        SinistroMapper.copiarParaPropriedades(sinistroAtualizado, sinistro);
+        return SinistroMapper.converter(sinistro);
     }
 
     @Override
     public void remover(Long id) {
+        if(!sinistroRepository.existsById(id)){
+            throw new IllegalArgumentException("Sinistro não encontrado para o ID: " + id);
+        }
         sinistroRepository.deleteById(id);
     }
 }
