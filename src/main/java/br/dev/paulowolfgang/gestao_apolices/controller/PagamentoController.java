@@ -1,7 +1,9 @@
 package br.dev.paulowolfgang.gestao_apolices.controller;
 
-import br.dev.paulowolfgang.gestao_apolices.entity.Pagamento;
+import br.dev.paulowolfgang.gestao_apolices.dto.request.PagamentoRequestDto;
+import br.dev.paulowolfgang.gestao_apolices.dto.response.PagamentoResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.service.IPagamentoService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,41 +20,29 @@ public class PagamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<Pagamento> criar(@RequestBody Pagamento pagamento){
-        Pagamento novoPagamento = pagamentoService.salvar(pagamento);
-        return ResponseEntity.ok(novoPagamento);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Pagamento>> listarTodos(){
-        List<Pagamento> pagamentos = pagamentoService.listarTodos();
-        return ResponseEntity.ok(pagamentos);
+    public ResponseEntity<PagamentoResponseDto> salvar(@RequestBody PagamentoRequestDto request){
+        PagamentoResponseDto response = pagamentoService.salvar(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pagamento> buscarPorId(@PathVariable Long id){
-        return pagamentoService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<PagamentoResponseDto> buscarPorId(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.buscarPorId(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PagamentoResponseDto>> listarTodos(){
+        return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.listarTodos());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pagamento> atualizar(@PathVariable Long id, @RequestBody Pagamento pagamentoAtualizado){
-        try {
-            Pagamento pagamento = pagamentoService.atualizar(id, pagamentoAtualizado);
-            return ResponseEntity.ok(pagamento);
-        } catch(IllegalArgumentException ex){
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<PagamentoResponseDto> atualizar(@PathVariable Long id, @RequestBody PagamentoRequestDto request){
+         return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remover(@PathVariable Long id){
-        try {
-            pagamentoService.remover(id);
-            return ResponseEntity.noContent().build();
-        } catch(IllegalArgumentException ex){
-            return ResponseEntity.notFound().build();
-        }
+        pagamentoService.remover(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

@@ -1,15 +1,15 @@
 package br.dev.paulowolfgang.gestao_apolices.service;
 
-import br.dev.paulowolfgang.gestao_apolices.entity.Pagamento;
+import br.dev.paulowolfgang.gestao_apolices.dto.request.PagamentoRequestDto;
+import br.dev.paulowolfgang.gestao_apolices.dto.response.PagamentoResponseDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IPagamentoService {
 
-    Pagamento salvar(Pagamento pagamento);
-    Optional<Pagamento> buscarPorId(Long id);
-    List<Pagamento> listarTodos();
-    Pagamento atualizar(Long id, Pagamento pagamentoAtualizado);
+    PagamentoResponseDto salvar(PagamentoRequestDto pagamento);
+    PagamentoResponseDto buscarPorId(Long id);
+    List<PagamentoResponseDto> listarTodos();
+    PagamentoResponseDto atualizar(Long id, PagamentoRequestDto pagamentoAtualizado);
     void remover(Long id);
 }

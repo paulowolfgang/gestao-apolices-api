@@ -9,7 +9,6 @@ import br.dev.paulowolfgang.gestao_apolices.service.IApoliceService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ApoliceServiceImpl implements IApoliceService {

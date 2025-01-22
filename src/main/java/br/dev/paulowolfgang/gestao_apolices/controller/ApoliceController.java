@@ -2,7 +2,6 @@ package br.dev.paulowolfgang.gestao_apolices.controller;
 
 import br.dev.paulowolfgang.gestao_apolices.dto.request.ApoliceRequestDto;
 import br.dev.paulowolfgang.gestao_apolices.dto.response.ApoliceResponseDto;
-import br.dev.paulowolfgang.gestao_apolices.entity.Apolice;
 import br.dev.paulowolfgang.gestao_apolices.service.IApoliceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
