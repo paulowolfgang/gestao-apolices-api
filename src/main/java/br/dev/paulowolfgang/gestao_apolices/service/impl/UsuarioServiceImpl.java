@@ -4,6 +4,7 @@ import br.dev.paulowolfgang.gestao_apolices.dto.mapper.UsuarioMapper;
 import br.dev.paulowolfgang.gestao_apolices.dto.request.UsuarioRequestDto;
 import br.dev.paulowolfgang.gestao_apolices.dto.response.UsuarioResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.entity.Usuario;
+import br.dev.paulowolfgang.gestao_apolices.exception.UsuarioNaoEncontradoException;
 import br.dev.paulowolfgang.gestao_apolices.repository.IUsuarioRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.IUsuarioService;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public UsuarioResponseDto buscarPorId(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado para o ID: " + id));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado."));
         return UsuarioMapper.converter(usuario);
     }
 
@@ -44,7 +45,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public UsuarioResponseDto atualizar(Long id, UsuarioRequestDto usuarioAtualizado) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado para o ID: " + id));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado."));
         UsuarioMapper.copiarParaPropriedades(usuarioAtualizado, usuario);
         usuario = usuarioRepository.save(usuario);
         return UsuarioMapper.converter(usuario);
@@ -53,7 +54,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public void remover(Long id) {
         if (!usuarioRepository.existsById(id)) {
-            throw new IllegalArgumentException("Usuário não encontrado para o ID: " + id);
+            throw new UsuarioNaoEncontradoException("Usuário não encontrado");
         }
         usuarioRepository.deleteById(id);
     }
