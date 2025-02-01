@@ -53,10 +53,4 @@ public class UsuarioController {
         usuarioService.remover(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
-    @GetMapping("/csrf-token")
-    public CsrfToken getCsrfToken(HttpServletRequest request)
-    {
-        return (CsrfToken) request.getAttribute("_csrf");
-    }
 }
