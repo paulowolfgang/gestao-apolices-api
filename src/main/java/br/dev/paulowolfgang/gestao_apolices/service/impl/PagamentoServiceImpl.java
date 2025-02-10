@@ -4,6 +4,7 @@ import br.dev.paulowolfgang.gestao_apolices.dto.mapper.PagamentoMapper;
 import br.dev.paulowolfgang.gestao_apolices.dto.request.PagamentoRequestDto;
 import br.dev.paulowolfgang.gestao_apolices.dto.response.PagamentoResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.entity.Pagamento;
+import br.dev.paulowolfgang.gestao_apolices.exception.PagamentoNaoEncontradoException;
 import br.dev.paulowolfgang.gestao_apolices.repository.IPagamentoRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.IPagamentoService;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class PagamentoServiceImpl implements IPagamentoService {
     @Override
     public PagamentoResponseDto buscarPorId(Long id) {
         Pagamento pagamento = pagamentoRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Pagamento não encontrado para o ID: " + id));
+                .orElseThrow(() -> new PagamentoNaoEncontradoException(String.format("Pagamento não encontrado para o ID: " + id)));
         return PagamentoMapper.converter(pagamento);
     }
 
@@ -44,7 +45,7 @@ public class PagamentoServiceImpl implements IPagamentoService {
     @Override
     public PagamentoResponseDto atualizar(Long id, PagamentoRequestDto pagamentoAtualizado) {
         Pagamento pagamento = pagamentoRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Pagamento não encontrado para o ID: " + id));
+                .orElseThrow(() -> new PagamentoNaoEncontradoException(String.format("Pagamento não encontrado para o ID: " + id)));
         PagamentoMapper.copiarParaPropriedades(pagamentoAtualizado, pagamento);
         return PagamentoMapper.converter(pagamento);
     }
@@ -52,7 +53,7 @@ public class PagamentoServiceImpl implements IPagamentoService {
     @Override
     public void remover(Long id) {
         if(!pagamentoRepository.existsById(id)){
-            throw new IllegalArgumentException("Pagamento não encontrado para o ID: " + id);
+            throw new PagamentoNaoEncontradoException(String.format("Pagamento não encontrado para o ID: " + id));
         }
         pagamentoRepository.deleteById(id);
     }

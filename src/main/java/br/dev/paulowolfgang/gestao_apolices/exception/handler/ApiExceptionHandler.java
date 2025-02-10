@@ -2,6 +2,7 @@ package br.dev.paulowolfgang.gestao_apolices.exception.handler;
 
 import br.dev.paulowolfgang.gestao_apolices.exception.ApoliceNaoEncontradaException;
 import br.dev.paulowolfgang.gestao_apolices.exception.ClienteNaoEncontradoException;
+import br.dev.paulowolfgang.gestao_apolices.exception.PagamentoNaoEncontradoException;
 import br.dev.paulowolfgang.gestao_apolices.exception.UsuarioNaoEncontradoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(ApoliceNaoEncontradaException.class)
     public ResponseEntity<ApiError> handlerApoliceNaoEncontradoException(ApoliceNaoEncontradaException apoliceNaoEncontradaException){
         ApiError apiError = new ApiError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), apoliceNaoEncontradaException.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
+    }
+
+    @ExceptionHandler(PagamentoNaoEncontradoException.class)
+    public ResponseEntity<ApiError> handlerPagamentoNaoEncontradoException(PagamentoNaoEncontradoException pagamentoNaoEncontradoException){
+        ApiError apiError = new ApiError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), pagamentoNaoEncontradoException.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
     }
 }
