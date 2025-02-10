@@ -5,6 +5,7 @@ import br.dev.paulowolfgang.gestao_apolices.dto.request.ClienteRequestDto;
 import br.dev.paulowolfgang.gestao_apolices.dto.response.ClienteResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.entity.Cliente;
 import br.dev.paulowolfgang.gestao_apolices.entity.Usuario;
+import br.dev.paulowolfgang.gestao_apolices.exception.ClienteNaoEncontradoException;
 import br.dev.paulowolfgang.gestao_apolices.repository.IClienteRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.IClienteService;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class ClienteServiceImpl implements IClienteService {
     @Override
     public ClienteResponseDto buscarPorId(Long id) {
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado para o ID: " + id));
+                .orElseThrow(() -> new ClienteNaoEncontradoException(String.format("Cliente não encontrado para o ID: " + id)));
         return ClienteMapper.converter(cliente);
     }
 
@@ -52,7 +53,7 @@ public class ClienteServiceImpl implements IClienteService {
     @Override
     public ClienteResponseDto atualizar(Long id, ClienteRequestDto clienteRequestDto) {
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado para o ID: " + id));
+                .orElseThrow(() -> new ClienteNaoEncontradoException(String.format("Cliente não encontrado para o ID: " + id)));
         ClienteMapper.copiarParaPropriedades(clienteRequestDto, cliente);
         cliente = clienteRepository.save(cliente);
 
@@ -62,7 +63,7 @@ public class ClienteServiceImpl implements IClienteService {
     @Override
     public void remover(Long id) {
         if (!clienteRepository.existsById(id)) {
-            throw new RuntimeException("Cliente não encontrado para o ID: " + id);
+            throw new ClienteNaoEncontradoException(String.format("Cliente não encontrado para o ID: " + id));
         }
         clienteRepository.deleteById(id);
     }

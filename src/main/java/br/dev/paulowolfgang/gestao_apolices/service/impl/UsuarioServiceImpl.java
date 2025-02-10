@@ -30,7 +30,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public UsuarioResponseDto buscarPorId(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado."));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(String.format("Usuário não encontrado para o ID: " + id)));
         return UsuarioMapper.converter(usuario);
     }
 
@@ -45,7 +45,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public UsuarioResponseDto atualizar(Long id, UsuarioRequestDto usuarioAtualizado) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new UsuarioNaoEncontradoException("Usuário não encontrado."));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(String.format("Usuário não encontrado para o ID: " + id)));
         UsuarioMapper.copiarParaPropriedades(usuarioAtualizado, usuario);
         usuario = usuarioRepository.save(usuario);
         return UsuarioMapper.converter(usuario);
@@ -54,7 +54,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public void remover(Long id) {
         if (!usuarioRepository.existsById(id)) {
-            throw new UsuarioNaoEncontradoException("Usuário não encontrado");
+            throw new UsuarioNaoEncontradoException(String.format("Usuário não encontrado para o ID: " + id));
         }
         usuarioRepository.deleteById(id);
     }
