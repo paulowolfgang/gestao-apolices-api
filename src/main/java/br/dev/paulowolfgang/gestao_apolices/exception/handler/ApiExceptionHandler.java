@@ -1,5 +1,6 @@
 package br.dev.paulowolfgang.gestao_apolices.exception.handler;
 
+import br.dev.paulowolfgang.gestao_apolices.exception.ApoliceNaoEncontradaException;
 import br.dev.paulowolfgang.gestao_apolices.exception.ClienteNaoEncontradoException;
 import br.dev.paulowolfgang.gestao_apolices.exception.UsuarioNaoEncontradoException;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(ClienteNaoEncontradoException.class)
     public ResponseEntity<ApiError> handlerClienteNaoEncontradoException(ClienteNaoEncontradoException clienteNaoEncontradoException){
         ApiError apiError = new ApiError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), clienteNaoEncontradoException.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
+    }
+
+    @ExceptionHandler(ApoliceNaoEncontradaException.class)
+    public ResponseEntity<ApiError> handlerApoliceNaoEncontradoException(ApoliceNaoEncontradaException apoliceNaoEncontradaException){
+        ApiError apiError = new ApiError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), apoliceNaoEncontradaException.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
     }
 }
