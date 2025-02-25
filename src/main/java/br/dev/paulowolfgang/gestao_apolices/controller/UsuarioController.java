@@ -3,10 +3,8 @@ package br.dev.paulowolfgang.gestao_apolices.controller;
 import br.dev.paulowolfgang.gestao_apolices.dto.request.UsuarioRequestDto;
 import br.dev.paulowolfgang.gestao_apolices.dto.response.UsuarioResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.service.IUsuarioService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
