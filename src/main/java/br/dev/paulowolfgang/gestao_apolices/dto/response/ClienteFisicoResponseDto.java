@@ -1,12 +1,13 @@
 package br.dev.paulowolfgang.gestao_apolices.dto.response;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ClienteFisicoResponseDto extends ClienteResponseDto {
 
     private String nome;
     private String cpf;
-    private LocalDateTime dataNascimento;
+    private LocalDate dataNascimento;
 
     public String getNome() {
         return nome;
@@ -24,11 +25,11 @@ public class ClienteFisicoResponseDto extends ClienteResponseDto {
         this.cpf = cpf;
     }
 
-    public LocalDateTime getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(LocalDateTime dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 }

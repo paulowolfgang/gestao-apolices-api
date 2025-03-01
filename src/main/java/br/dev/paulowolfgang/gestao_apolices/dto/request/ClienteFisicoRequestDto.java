@@ -1,12 +1,12 @@
 package br.dev.paulowolfgang.gestao_apolices.dto.request;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class ClienteFisicoRequestDto extends ClienteRequestDto {
 
     private String nome;
     private String cpf;
-    private LocalDateTime dataNascimento;
+    private LocalDate dataNascimento;
 
     public String getNome() {
         return nome;
@@ -24,11 +24,11 @@ public class ClienteFisicoRequestDto extends ClienteRequestDto {
         this.cpf = cpf;
     }
 
-    public LocalDateTime getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(LocalDateTime dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 }

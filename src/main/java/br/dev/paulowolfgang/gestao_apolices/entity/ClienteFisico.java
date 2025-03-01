@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @DiscriminatorValue("FISICO")
@@ -17,11 +17,11 @@ public class ClienteFisico extends Cliente {
     private String cpf;
 
     @Column(name = "data_nascimento")
-    private LocalDateTime dataNascimento;
+    private LocalDate dataNascimento;
 
     protected ClienteFisico() {}
 
-    public ClienteFisico(String email, String endereco, String telefone, String nome, String cpf, LocalDateTime dataNascimento) {
+    public ClienteFisico(String email, String endereco, String telefone, String nome, String cpf, LocalDate dataNascimento) {
         super(email, endereco, telefone);
         this.nome = nome;
         this.cpf = cpf;
@@ -44,11 +44,11 @@ public class ClienteFisico extends Cliente {
         this.cpf = cpf;
     }
 
-    public LocalDateTime getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(LocalDateTime dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
