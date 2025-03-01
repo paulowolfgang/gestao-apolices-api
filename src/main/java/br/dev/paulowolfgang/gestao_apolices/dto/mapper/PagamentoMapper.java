@@ -14,7 +14,9 @@ public class PagamentoMapper {
     }
 
     public static PagamentoResponseDto converter(Pagamento pagamento){
-        return mapper.map(pagamento, PagamentoResponseDto.class);
+        PagamentoResponseDto dto = mapper.map(pagamento, PagamentoResponseDto.class);
+        dto.setApoliceId(pagamento.getApolice().getId());
+        return dto;
     }
 
     public static void copiarParaPropriedades(PagamentoRequestDto request, Pagamento pagamento){

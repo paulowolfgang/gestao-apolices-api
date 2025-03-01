@@ -1,7 +1,6 @@
 package br.dev.paulowolfgang.gestao_apolices.dto.response;
 
 import br.dev.paulowolfgang.gestao_apolices.entity.Apolice;
-import br.dev.paulowolfgang.gestao_apolices.entity.Cliente;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -9,7 +8,7 @@ import java.time.LocalDate;
 public class ApoliceResponseDto {
 
     private Long id;
-    private Cliente cliente;
+    private Long clienteId;
     private String numero;
     private BigDecimal valorCobertura;
     private BigDecimal premioMensal;
@@ -29,12 +28,12 @@ public class ApoliceResponseDto {
         this.id = id;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Long getClienteId() {
+        return clienteId;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
     }
 
     public String getNumero() {

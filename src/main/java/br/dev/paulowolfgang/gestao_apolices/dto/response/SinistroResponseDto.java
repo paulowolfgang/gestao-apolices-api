@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class SinistroResponseDto {
 
     private Long id;
-    private Apolice apolice;
+    private Long apoliceId;
     private String numero;
     private String descricao;
     private LocalDate dataOcorrido;
@@ -24,12 +24,12 @@ public class SinistroResponseDto {
         this.id = id;
     }
 
-    public Apolice getApolice() {
-        return apolice;
+    public Long getApoliceId() {
+        return apoliceId;
     }
 
-    public void setApolice(Apolice apolice) {
-        this.apolice = apolice;
+    public void setApoliceId(Long apoliceId) {
+        this.apoliceId = apoliceId;
     }
 
     public String getNumero() {

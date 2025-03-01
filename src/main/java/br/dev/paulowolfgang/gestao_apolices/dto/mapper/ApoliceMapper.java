@@ -14,7 +14,9 @@ public class ApoliceMapper {
     }
 
     public static ApoliceResponseDto converter(Apolice apolice){
-        return mapper.map(apolice, ApoliceResponseDto.class);
+        ApoliceResponseDto dto = mapper.map(apolice, ApoliceResponseDto.class);
+        dto.setClienteId(apolice.getCliente().getId());
+        return dto;
     }
 
     public static void copiarParaPropriedades(ApoliceRequestDto request, Apolice apolice){

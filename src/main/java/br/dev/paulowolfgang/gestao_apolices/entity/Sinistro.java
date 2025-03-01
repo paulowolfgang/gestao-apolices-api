@@ -16,7 +16,7 @@ public class Sinistro {
     private Long id;
 
     @NotNull(message = "O número de apólice deve ser informado.")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "apolice_id", nullable = false, foreignKey = @ForeignKey(name = "fk_apolice_id"))
     private Apolice apolice;
 

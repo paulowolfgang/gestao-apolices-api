@@ -16,7 +16,7 @@ public class Apolice {
     private Long id;
 
     @NotNull(message = "O cliente deve ser informado.")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "fk_cliente_id"))
     private Cliente cliente;
 

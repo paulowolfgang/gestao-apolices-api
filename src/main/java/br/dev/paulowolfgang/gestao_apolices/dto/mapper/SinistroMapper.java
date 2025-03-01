@@ -14,7 +14,9 @@ public class SinistroMapper {
     }
 
     public static SinistroResponseDto converter(Sinistro sinistro){
-        return mapper.map(sinistro, SinistroResponseDto.class);
+        SinistroResponseDto dto = mapper.map(sinistro, SinistroResponseDto.class);
+        dto.setApoliceId(sinistro.getApolice().getId());
+        return dto;
     }
 
     public static void copiarParaPropriedades(SinistroRequestDto request, Sinistro sinistro){
