@@ -8,7 +8,6 @@ import java.time.LocalDate;
 public class ApoliceRequestDto {
 
     private Long clienteId;
-    private String numero;
     private BigDecimal valorCobertura;
     private BigDecimal premioMensal;
     private BigDecimal premioTotal;
@@ -25,14 +24,6 @@ public class ApoliceRequestDto {
 
     public void setClienteId(Long clienteId) {
         this.clienteId = clienteId;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
     }
 
     public BigDecimal getValorCobertura() {

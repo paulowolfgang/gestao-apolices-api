@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "apolices")
@@ -21,7 +22,7 @@ public class Apolice {
     private Cliente cliente;
 
     @NotNull(message = "O número da apólice é obrigatório.")
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(nullable = false, unique = true, length = 50, updatable = false)
     private String numero;
 
     @NotNull(message = "O valor de cobertura é obrigatório.")
@@ -60,7 +61,11 @@ public class Apolice {
     @Column(nullable = false, length = 50, columnDefinition = "ENUM('ATIVA', 'CANCELADA', 'SUSPENSA') DEFAULT 'ATIVA'")
     private Status status = Status.ATIVA;
 
-    public Apolice(){}
+    private static final String PREFIXO = "APL-";
+
+    public Apolice() {
+        this.numero = gerarNumero();
+    }
 
     public Apolice(Long id, Cliente cliente, String numero,
                    BigDecimal valorCobertura, BigDecimal premioMensal, BigDecimal premioTotal,
@@ -78,6 +83,17 @@ public class Apolice {
         this.dataFim = dataFim;
         this.tipo = tipo;
         this.status = status;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.numero == null || this.numero.isEmpty()) {
+            this.numero = gerarNumero();
+        }
+    }
+
+    private String gerarNumero() {
+        return PREFIXO + UUID.randomUUID().toString();
     }
 
     public Long getId() {
