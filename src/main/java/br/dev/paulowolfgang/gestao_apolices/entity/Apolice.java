@@ -21,7 +21,6 @@ public class Apolice {
     @JoinColumn(name = "cliente_id", nullable = false, foreignKey = @ForeignKey(name = "fk_cliente_id"))
     private Cliente cliente;
 
-    @NotNull(message = "O número da apólice é obrigatório.")
     @Column(nullable = false, unique = true, length = 50, updatable = false)
     private String numero;
 

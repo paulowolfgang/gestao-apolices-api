@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "sinistros")
@@ -20,8 +21,7 @@ public class Sinistro {
     @JoinColumn(name = "apolice_id", nullable = false, foreignKey = @ForeignKey(name = "fk_apolice_id"))
     private Apolice apolice;
 
-    @NotNull(message = "O número do sinistro é obrigatório.")
-    @Column(name = "numero_sinistro", nullable = false, unique = true, length = 50)
+    @Column(name = "numero_sinistro", nullable = false, unique = true, length = 50, updatable = false)
     private String numero;
 
     @NotNull(message = "A descrição do sinistro é obrigatória.")
@@ -40,7 +40,11 @@ public class Sinistro {
     @Column(nullable = false, length = 50, columnDefinition = "ENUM('EM_ANALISE', 'APROVADO', 'REJEITADO') DEFAULT 'EM_ANALISE'")
     private Status status = Status.EM_ANALISE;
 
-    public Sinistro(){}
+    private static final String PREFIXO = "SNT-";
+
+    public Sinistro(){
+        this.numero = gerarNumero();
+    }
 
     public Sinistro(Long id, Apolice apolice, String numero,
                     String descricao, LocalDate dataOcorrido, BigDecimal valorEstimado, Status status) {
@@ -51,6 +55,17 @@ public class Sinistro {
         this.dataOcorrido = dataOcorrido;
         this.valorEstimado = valorEstimado;
         this.status = status;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.numero == null || this.numero.isEmpty()) {
+            this.numero = gerarNumero();
+        }
+    }
+
+    private String gerarNumero() {
+        return PREFIXO + UUID.randomUUID().toString();
     }
 
     public Long getId() {

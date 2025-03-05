@@ -1,6 +1,5 @@
 package br.dev.paulowolfgang.gestao_apolices.dto.response;
 
-import br.dev.paulowolfgang.gestao_apolices.entity.Apolice;
 import br.dev.paulowolfgang.gestao_apolices.entity.Sinistro;
 
 import java.math.BigDecimal;

@@ -11,11 +11,9 @@ public class ApoliceMapper {
     private static final ModelMapper mapper = new ModelMapper();
 
     static {
-        // Configura o mapeamento de ApoliceRequestDto para Apolice
         mapper.addMappings(new PropertyMap<ApoliceRequestDto, Apolice>() {
             @Override
             protected void configure() {
-                // Ignora o mapeamento do ID e do cliente
                 skip(destination.getId());
                 skip(destination.getCliente());
             }
@@ -36,22 +34,3 @@ public class ApoliceMapper {
         mapper.map(request, apolice);
     }
 }
-
-//public class ApoliceMapper {
-//
-//    private static final ModelMapper mapper = new ModelMapper();
-//
-//    public static Apolice converter(ApoliceRequestDto request){
-//        return mapper.map(request, Apolice.class);
-//    }
-//
-//    public static ApoliceResponseDto converter(Apolice apolice){
-//        ApoliceResponseDto dto = mapper.map(apolice, ApoliceResponseDto.class);
-//        dto.setClienteId(apolice.getCliente().getId());
-//        return dto;
-//    }
-//
-//    public static void copiarParaPropriedades(ApoliceRequestDto request, Apolice apolice){
-//        mapper.map(request, apolice);
-//    }
-//}

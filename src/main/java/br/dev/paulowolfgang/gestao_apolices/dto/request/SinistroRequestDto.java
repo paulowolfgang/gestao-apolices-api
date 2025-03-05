@@ -7,27 +7,18 @@ import java.time.LocalDate;
 
 public class SinistroRequestDto {
 
-    private Long apoliceId;
-    private String numero;
+    private String apoliceNumero;
     private String descricao;
     private LocalDate dataOcorrido;
     private BigDecimal valorEstimado;
     private Sinistro.Status status = Sinistro.Status.EM_ANALISE;
 
-    public Long getApoliceId() {
-        return apoliceId;
+    public String getApoliceNumero() {
+        return apoliceNumero;
     }
 
-    public void setApoliceId(Long apoliceId) {
-        this.apoliceId = apoliceId;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setApoliceNumero(String apoliceNumero) {
+        this.apoliceNumero = apoliceNumero;
     }
 
     public String getDescricao() {

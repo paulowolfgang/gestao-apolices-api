@@ -25,9 +25,9 @@ public class SinistroController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SinistroResponseDto> buscarPorId(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(sinistroService.buscarPorId(id));
+    @GetMapping("/{numero}")
+    public ResponseEntity<SinistroResponseDto> buscarPorNumero(@PathVariable String numero){
+        return ResponseEntity.status(HttpStatus.OK).body(sinistroService.buscarPorNumero(numero));
     }
 
     @GetMapping
