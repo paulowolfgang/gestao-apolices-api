@@ -7,9 +7,8 @@ import java.util.List;
 
 public interface IApoliceService {
     ApoliceResponseDto salvar(ApoliceRequestDto apolice);
-    ApoliceResponseDto buscarPorId(Long id);
     List<ApoliceResponseDto> listarTodos();
     ApoliceResponseDto buscarPorNumero(String numero);
-    ApoliceResponseDto atualizar(Long id, ApoliceRequestDto apoliceAtualizada);
-    void remover(Long id);
+    ApoliceResponseDto atualizar(String numero, ApoliceRequestDto apoliceAtualizada);
+    void remover(String id);
 }

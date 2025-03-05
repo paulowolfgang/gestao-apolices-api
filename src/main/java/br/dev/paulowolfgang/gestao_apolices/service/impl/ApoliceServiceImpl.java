@@ -25,51 +25,14 @@ public class ApoliceServiceImpl implements IApoliceService {
         this.clienteRepository = clienteRepository;
     }
 
-//    @Override
-//    public ApoliceResponseDto salvar(ApoliceRequestDto request) {
-//        Apolice apolice = ApoliceMapper.converter(request);
-//        apolice = apoliceRepository.save(apolice);
-//        return ApoliceMapper.converter(apolice);
-//    }
-
     @Override
     public ApoliceResponseDto salvar(ApoliceRequestDto request) {
-        // Log para verificar os dados de entrada
-        System.out.println("Dados de entrada: " + request);
-
-        // Busca o cliente com o ID fornecido no DTO
         Cliente cliente = clienteRepository.findById(request.getClienteId())
                 .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado com o ID: " + request.getClienteId()));
-
-        // Log para verificar se o cliente foi encontrado
-        System.out.println("Cliente encontrado: " + cliente);
-
-        // Converte o DTO para a entidade Apolice
         Apolice apolice = ApoliceMapper.converter(request);
-
-        // Log para verificar a apólice após a conversão
-        System.out.println("Apólice após conversão: " + apolice);
-
-        // Associa o cliente à apólice antes de salvar
         apolice.setCliente(cliente);
-
-        // Log para verificar a apólice antes de salvar
-        System.out.println("Apólice antes de salvar: " + apolice);
-
-        // Salva a apólice
         apolice = apoliceRepository.save(apolice);
 
-        // Log para verificar a apólice após salvar
-        System.out.println("Apólice após salvar: " + apolice);
-
-        // Retorna a apólice convertida para DTO
-        return ApoliceMapper.converter(apolice);
-    }
-
-    @Override
-    public ApoliceResponseDto buscarPorId(Long id) {
-        Apolice apolice = apoliceRepository.findById(id)
-                .orElseThrow(() -> new ApoliceNaoEncontradaException(String.format("Apólice não encontrada para o ID: " + id)));
         return ApoliceMapper.converter(apolice);
     }
 
@@ -89,19 +52,18 @@ public class ApoliceServiceImpl implements IApoliceService {
     }
 
     @Override
-    public ApoliceResponseDto atualizar(Long id, ApoliceRequestDto apoliceAtualizada) {
-        Apolice apolice = apoliceRepository.findById(id)
-                .orElseThrow(() -> new ApoliceNaoEncontradaException(String.format("Apólice não encontrada para o ID: " + id)));
+    public ApoliceResponseDto atualizar(String numero, ApoliceRequestDto apoliceAtualizada) {
+        Apolice apolice = apoliceRepository.findByNumero(numero)
+                .orElseThrow(() -> new ApoliceNaoEncontradaException(String.format("Apólice não encontrada para o número: " + numero)));
         ApoliceMapper.copiarParaPropriedades(apoliceAtualizada, apolice);
         apolice = apoliceRepository.save(apolice);
         return ApoliceMapper.converter(apolice);
     }
 
     @Override
-    public void remover(Long id) {
-        if(!apoliceRepository.existsById(id)){
-            throw new ApoliceNaoEncontradaException(String.format("Apólice não encontrada para o ID: " + id));
-        }
-        apoliceRepository.deleteById(id);
+    public void remover(String numero) {
+        Apolice apolice = apoliceRepository.findByNumero(numero)
+                .orElseThrow(() -> new ApoliceNaoEncontradaException(String.format("Apólice não encontrada para o número: " + numero)));
+        apoliceRepository.deleteById(apolice.getId());
     }
 }

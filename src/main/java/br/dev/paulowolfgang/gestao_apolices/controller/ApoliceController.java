@@ -25,11 +25,6 @@ public class ApoliceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApoliceResponseDto> buscarPorId(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(apoliceService.buscarPorId(id));
-    }
-
     @GetMapping
     public ResponseEntity<List<ApoliceResponseDto>> listarTodos(){
         return ResponseEntity.status(HttpStatus.OK).body(apoliceService.listarTodos());
@@ -40,14 +35,14 @@ public class ApoliceController {
         return ResponseEntity.status(HttpStatus.OK).body(apoliceService.buscarPorNumero(numero));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ApoliceResponseDto> atualizar(@PathVariable Long id, @RequestBody ApoliceRequestDto request) {
-        return ResponseEntity.status(HttpStatus.OK).body(apoliceService.atualizar(id, request));
+    @PutMapping("/{numero}")
+    public ResponseEntity<ApoliceResponseDto> atualizar(@PathVariable String numero, @RequestBody ApoliceRequestDto request) {
+        return ResponseEntity.status(HttpStatus.OK).body(apoliceService.atualizar(numero, request));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> remover(@PathVariable Long id) {
-        apoliceService.remover(id);
+    @DeleteMapping("/{numero}")
+    public ResponseEntity<Void> remover(@PathVariable String numero) {
+        apoliceService.remover(numero);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
