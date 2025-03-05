@@ -51,18 +51,17 @@ public class SinistroServiceImpl implements ISinistroService {
     }
 
     @Override
-    public SinistroResponseDto atualizar(Long id, SinistroRequestDto sinistroAtualizado) {
-        Sinistro sinistro = sinistroRepository.findById(id)
-                .orElseThrow(() -> new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o ID: " + id)));
+    public SinistroResponseDto atualizar(String numero, SinistroRequestDto sinistroAtualizado) {
+        Sinistro sinistro = sinistroRepository.findByNumero(numero)
+                .orElseThrow(() -> new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o número: " + numero)));
         SinistroMapper.copiarParaPropriedades(sinistroAtualizado, sinistro);
         return SinistroMapper.converter(sinistro);
     }
 
     @Override
-    public void remover(Long id) {
-        if(!sinistroRepository.existsById(id)){
-            throw new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o ID: " + id));
-        }
-        sinistroRepository.deleteById(id);
+    public void remover(String numero) {
+        Sinistro sinistro = sinistroRepository.findByNumero(numero)
+                .orElseThrow(() -> new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o número: " + numero)));
+        sinistroRepository.deleteById(sinistro.getId());
     }
 }

@@ -35,14 +35,14 @@ public class SinistroController {
          return ResponseEntity.status(HttpStatus.OK).body(sinistroService.listarTodos());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<SinistroResponseDto> atualizar(@PathVariable Long id, @RequestBody SinistroRequestDto request){
-        return ResponseEntity.status(HttpStatus.OK).body(sinistroService.atualizar(id, request));
+    @PutMapping("/{numero}")
+    public ResponseEntity<SinistroResponseDto> atualizar(@PathVariable String numero, @RequestBody SinistroRequestDto request){
+        return ResponseEntity.status(HttpStatus.OK).body(sinistroService.atualizar(numero, request));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> remover(@PathVariable Long id){
-        sinistroService.remover(id);
+    @DeleteMapping("/{numero}")
+    public ResponseEntity<Void> remover(@PathVariable String numero){
+        sinistroService.remover(numero);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

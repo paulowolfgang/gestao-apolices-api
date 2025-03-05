@@ -9,6 +9,6 @@ public interface ISinistroService {
     SinistroResponseDto salvar(SinistroRequestDto request);
     List<SinistroResponseDto> listarTodos();
     SinistroResponseDto buscarPorNumero(String numero);
-    SinistroResponseDto atualizar(Long id, SinistroRequestDto sinistroAtualizado);
-    void remover(Long id);
+    SinistroResponseDto atualizar(String numero, SinistroRequestDto sinistroAtualizado);
+    void remover(String numero);
 }
