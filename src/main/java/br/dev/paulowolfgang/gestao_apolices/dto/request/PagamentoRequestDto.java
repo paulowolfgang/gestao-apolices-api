@@ -7,18 +7,18 @@ import java.time.LocalDate;
 
 public class PagamentoRequestDto {
 
-    private Long apoliceId;
+    private String apoliceNumero;
     private BigDecimal valor;
     private LocalDate dataVencimento;
     private LocalDate dataPagamento;
     private Pagamento.Status status;
 
-    public Long getApoliceId() {
-        return apoliceId;
+    public String getApoliceNumero() {
+        return apoliceNumero;
     }
 
-    public void setApoliceId(Long apoliceId) {
-        this.apoliceId = apoliceId;
+    public void setApoliceNumero(String apoliceNumero) {
+        this.apoliceNumero = apoliceNumero;
     }
 
     public BigDecimal getValor() {

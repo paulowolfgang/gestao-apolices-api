@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface IPagamentoService {
     PagamentoResponseDto salvar(PagamentoRequestDto pagamento);
-    PagamentoResponseDto buscarPorId(Long id);
+    PagamentoResponseDto buscarPorNumero(String numero);
     List<PagamentoResponseDto> listarTodos();
-    PagamentoResponseDto atualizar(Long id, PagamentoRequestDto pagamentoAtualizado);
-    void remover(Long id);
+    PagamentoResponseDto atualizar(String numero, PagamentoRequestDto pagamentoAtualizado);
+    void remover(String id);
 }

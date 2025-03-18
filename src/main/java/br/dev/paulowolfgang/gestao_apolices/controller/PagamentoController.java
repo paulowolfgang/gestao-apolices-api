@@ -25,9 +25,9 @@ public class PagamentoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PagamentoResponseDto> buscarPorId(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.buscarPorId(id));
+    @GetMapping("/{numero}")
+    public ResponseEntity<PagamentoResponseDto> buscarPorNumero(@PathVariable String numero){
+        return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.buscarPorNumero(numero));
     }
 
     @GetMapping
@@ -35,14 +35,14 @@ public class PagamentoController {
         return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.listarTodos());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PagamentoResponseDto> atualizar(@PathVariable Long id, @RequestBody PagamentoRequestDto request){
-         return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.atualizar(id, request));
+    @PutMapping("/{numero}")
+    public ResponseEntity<PagamentoResponseDto> atualizar(@PathVariable String numero, @RequestBody PagamentoRequestDto request){
+         return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.atualizar(numero, request));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> remover(@PathVariable Long id){
-        pagamentoService.remover(id);
+    @DeleteMapping("/{numero}")
+    public ResponseEntity<Void> remover(@PathVariable String numero){
+        pagamentoService.remover(numero);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

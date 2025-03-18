@@ -9,6 +9,7 @@ public class PagamentoResponseDto {
 
     private Long id;
     private Long apoliceId;
+    private String numero;
     private BigDecimal valor;
     private LocalDate dataVencimento;
     private LocalDate dataPagamento;
@@ -28,6 +29,14 @@ public class PagamentoResponseDto {
 
     public void setApoliceId(Long apoliceId) {
         this.apoliceId = apoliceId;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
     public BigDecimal getValor() {

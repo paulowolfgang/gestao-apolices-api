@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "pagamentos")
@@ -19,6 +20,9 @@ public class Pagamento {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "apolice_id", nullable = false, foreignKey = @ForeignKey(name = "fk_apolice_id"))
     private Apolice apolice;
+
+    @Column(name = "numero_pagamento", nullable = false, unique = true, length = 50, updatable = false)
+    private String numero;
 
     @NotNull(message = "O valor deve ser informado")
     @Column(nullable = false, precision = 15, scale = 2)
@@ -35,16 +39,32 @@ public class Pagamento {
     @Column(nullable = false, length = 50, columnDefinition = "ENUM('PAGO', 'ATRASADO') DEFAULT 'ATRASADO'")
     private Status status = Status.ATRASADO;
 
-    public Pagamento(){}
+    private static final String PREFIXO = "PGT-";
 
-    public Pagamento(Long id, Apolice apolice, BigDecimal valor,
+    public Pagamento(){
+        this.numero = gerarNumero();
+    }
+
+    public Pagamento(Long id, Apolice apolice, String numero, BigDecimal valor,
                      LocalDate dataVencimento, LocalDate dataPagamento, Status status) {
         this.id = id;
         this.apolice = apolice;
+        this.numero = numero;
         this.valor = valor;
         this.dataVencimento = dataVencimento;
         this.dataPagamento = dataPagamento;
         this.status = status;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.numero == null || this.numero.isEmpty()) {
+            this.numero = gerarNumero();
+        }
+    }
+
+    private String gerarNumero() {
+        return PREFIXO + UUID.randomUUID().toString();
     }
 
     public Long getId() {
@@ -61,6 +81,14 @@ public class Pagamento {
 
     public void setApolice(Apolice apolice) {
         this.apolice = apolice;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
     public BigDecimal getValor() {
@@ -117,6 +145,7 @@ public class Pagamento {
         return "Pagamento{" +
                 "id=" + id +
                 ", apolice=" + apolice +
+                ", numero='" + numero + '\'' +
                 ", valor=" + valor +
                 ", dataVencimento=" + dataVencimento +
                 ", dataPagamento=" + dataPagamento +
