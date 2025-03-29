@@ -11,6 +11,7 @@ import br.dev.paulowolfgang.gestao_apolices.repository.IApoliceRepository;
 import br.dev.paulowolfgang.gestao_apolices.repository.IPagamentoRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.IPagamentoService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class PagamentoServiceImpl implements IPagamentoService {
     }
 
     @Override
+    @Transactional
     public PagamentoResponseDto salvar(PagamentoRequestDto request) {
         Apolice apolice = apoliceRepository.findByNumero(request.getApoliceNumero())
                 .orElseThrow(() -> new ApoliceNaoEncontradaException("Apólice não encontrada com o número: " + request.getApoliceNumero()));
@@ -36,6 +38,7 @@ public class PagamentoServiceImpl implements IPagamentoService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PagamentoResponseDto buscarPorNumero(String numero) {
         Pagamento pagamento = pagamentoRepository.findByNumero(numero)
                 .orElseThrow(() -> new PagamentoNaoEncontradoException(String.format("Pagamento não encontrado para o número: " + numero)));
@@ -43,6 +46,7 @@ public class PagamentoServiceImpl implements IPagamentoService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<PagamentoResponseDto> listarTodos() {
         List<Pagamento> pagamentos = pagamentoRepository.findAll();
         return pagamentos.stream()
@@ -51,14 +55,17 @@ public class PagamentoServiceImpl implements IPagamentoService {
     }
 
     @Override
+    @Transactional
     public PagamentoResponseDto atualizar(String numero, PagamentoRequestDto pagamentoAtualizado) {
         Pagamento pagamento = pagamentoRepository.findByNumero(numero)
                 .orElseThrow(() -> new PagamentoNaoEncontradoException(String.format("Pagamento não encontrado para o número: " + numero)));
         PagamentoMapper.copiarParaPropriedades(pagamentoAtualizado, pagamento);
+        pagamento = pagamentoRepository.save(pagamento);
         return PagamentoMapper.converter(pagamento);
     }
 
     @Override
+    @Transactional
     public void remover(String numero) {
         Pagamento pagamento = pagamentoRepository.findByNumero(numero)
                 .orElseThrow(() -> new PagamentoNaoEncontradoException(String.format("Pagamento não encontrado para o número: " + numero)));
