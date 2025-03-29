@@ -16,59 +16,71 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class SinistroServiceImpl implements ISinistroService {
+public class SinistroServiceImpl implements ISinistroService
+{
 
     private final ISinistroRepository sinistroRepository;
     private final IApoliceRepository apoliceRepository;
 
-    public SinistroServiceImpl(ISinistroRepository sinistroRepository, IApoliceRepository apoliceRepository) {
+    public SinistroServiceImpl(ISinistroRepository sinistroRepository, IApoliceRepository apoliceRepository)
+    {
         this.sinistroRepository = sinistroRepository;
         this.apoliceRepository = apoliceRepository;
     }
 
     @Override
     @Transactional
-    public SinistroResponseDto salvar(SinistroRequestDto request) {
+    public SinistroResponseDto salvar(SinistroRequestDto request)
+    {
         Apolice apolice = apoliceRepository.findByNumero(request.getApoliceNumero())
                 .orElseThrow(() -> new ApoliceNaoEncontradaException("Apólice não encontrada com o número: " + request.getApoliceNumero()));
         Sinistro sinistro = SinistroMapper.converter(request);
         sinistro.setApolice(apolice);
         sinistro = sinistroRepository.save(sinistro);
+
         return SinistroMapper.converter(sinistro);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public SinistroResponseDto buscarPorNumero(String numero) {
+    @Transactional
+    public SinistroResponseDto atualizar(String numero, SinistroRequestDto sinistroAtualizado)
+    {
         Sinistro sinistro = sinistroRepository.findByNumero(numero)
                 .orElseThrow(() -> new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o número: " + numero)));
+        SinistroMapper.copiarParaPropriedades(sinistroAtualizado, sinistro);
+        sinistro = sinistroRepository.save(sinistro);
+
         return SinistroMapper.converter(sinistro);
     }
 
     @Override
+    @Transactional
+    public void remover(String numero)
+    {
+        Sinistro sinistro = sinistroRepository.findByNumero(numero)
+                .orElseThrow(() -> new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o número: " + numero)));
+
+        sinistroRepository.deleteById(sinistro.getId());
+    }
+
+    @Override
     @Transactional(readOnly = true)
-    public List<SinistroResponseDto> listarTodos() {
+    public List<SinistroResponseDto> listarTodos()
+    {
         List<Sinistro> sinistros = sinistroRepository.findAll();
+
         return sinistros.stream()
                 .map(SinistroMapper::converter)
                 .toList();
     }
 
     @Override
-    @Transactional
-    public SinistroResponseDto atualizar(String numero, SinistroRequestDto sinistroAtualizado) {
+    @Transactional(readOnly = true)
+    public SinistroResponseDto buscarPorNumero(String numero)
+    {
         Sinistro sinistro = sinistroRepository.findByNumero(numero)
                 .orElseThrow(() -> new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o número: " + numero)));
-        SinistroMapper.copiarParaPropriedades(sinistroAtualizado, sinistro);
-        sinistro = sinistroRepository.save(sinistro);
-        return SinistroMapper.converter(sinistro);
-    }
 
-    @Override
-    @Transactional
-    public void remover(String numero) {
-        Sinistro sinistro = sinistroRepository.findByNumero(numero)
-                .orElseThrow(() -> new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o número: " + numero)));
-        sinistroRepository.deleteById(sinistro.getId());
+        return SinistroMapper.converter(sinistro);
     }
 }

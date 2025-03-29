@@ -9,20 +9,25 @@ import br.dev.paulowolfgang.gestao_apolices.exception.ClienteNaoEncontradoExcept
 import br.dev.paulowolfgang.gestao_apolices.repository.IClienteRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.IClienteService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class ClienteServiceImpl implements IClienteService {
+public class ClienteServiceImpl implements IClienteService
+{
 
     private final IClienteRepository clienteRepository;
 
-    public ClienteServiceImpl(IClienteRepository clienteRepository) {
+    public ClienteServiceImpl(IClienteRepository clienteRepository)
+    {
         this.clienteRepository = clienteRepository;
     }
 
     @Override
-    public ClienteResponseDto salvar(ClienteRequestDto request) {
+    @Transactional
+    public ClienteResponseDto salvar(ClienteRequestDto request)
+    {
 
         // Simulação de um usuário temporário com ID fixo
         Long idUsuarioSimulado = 1L;
@@ -32,26 +37,14 @@ public class ClienteServiceImpl implements IClienteService {
         Cliente cliente = ClienteMapper.converter(request);
         cliente.setUsuario(usuarioSimulado);
         cliente = clienteRepository.save(cliente);
+
         return ClienteMapper.converter(cliente);
     }
 
     @Override
-    public ClienteResponseDto buscarPorId(Long id) {
-        Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new ClienteNaoEncontradoException(String.format("Cliente não encontrado para o ID: " + id)));
-        return ClienteMapper.converter(cliente);
-    }
-
-    @Override
-    public List<ClienteResponseDto> listarTodos() {
-        List<Cliente> clientes = clienteRepository.findAll();
-        return clientes.stream()
-                .map(ClienteMapper::converter)
-                .toList();
-    }
-
-    @Override
-    public ClienteResponseDto atualizar(Long id, ClienteRequestDto clienteRequestDto) {
+    @Transactional
+    public ClienteResponseDto atualizar(Long id, ClienteRequestDto clienteRequestDto)
+    {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new ClienteNaoEncontradoException(String.format("Cliente não encontrado para o ID: " + id)));
         ClienteMapper.copiarParaPropriedades(clienteRequestDto, cliente);
@@ -61,10 +54,34 @@ public class ClienteServiceImpl implements IClienteService {
     }
 
     @Override
-    public void remover(Long id) {
+    @Transactional
+    public void remover(Long id)
+    {
         if (!clienteRepository.existsById(id)) {
             throw new ClienteNaoEncontradoException(String.format("Cliente não encontrado para o ID: " + id));
         }
+
         clienteRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ClienteResponseDto> listarTodos()
+    {
+        List<Cliente> clientes = clienteRepository.findAll();
+
+        return clientes.stream()
+                .map(ClienteMapper::converter)
+                .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ClienteResponseDto buscarPorId(Long id)
+    {
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new ClienteNaoEncontradoException(String.format("Cliente não encontrado para o ID: " + id)));
+
+        return ClienteMapper.converter(cliente);
     }
 }

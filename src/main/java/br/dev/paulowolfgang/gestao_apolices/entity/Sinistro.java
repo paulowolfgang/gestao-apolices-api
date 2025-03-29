@@ -10,7 +10,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "sinistros")
-public class Sinistro {
+public class Sinistro
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,12 +43,14 @@ public class Sinistro {
 
     private static final String PREFIXO = "SNT-";
 
-    public Sinistro(){
+    public Sinistro()
+    {
         this.numero = gerarNumero();
     }
 
     public Sinistro(Long id, Apolice apolice, String numero,
-                    String descricao, LocalDate dataOcorrido, BigDecimal valorEstimado, Status status) {
+                    String descricao, LocalDate dataOcorrido, BigDecimal valorEstimado, Status status)
+    {
         this.id = id;
         this.apolice = apolice;
         this.numero = numero;
@@ -58,90 +61,111 @@ public class Sinistro {
     }
 
     @PrePersist
-    public void prePersist() {
-        if (this.numero == null || this.numero.isEmpty()) {
+    public void prePersist()
+    {
+        if (this.numero == null || this.numero.isEmpty())
+        {
             this.numero = gerarNumero();
         }
     }
 
-    private String gerarNumero() {
+    private String gerarNumero()
+    {
         return PREFIXO + UUID.randomUUID().toString();
     }
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public Apolice getApolice() {
+    public Apolice getApolice()
+    {
         return apolice;
     }
 
-    public void setApolice(Apolice apolice) {
+    public void setApolice(Apolice apolice)
+    {
         this.apolice = apolice;
     }
 
-    public String getNumero() {
+    public String getNumero()
+    {
         return numero;
     }
 
-    public void setNumero(String numero) {
+    public void setNumero(String numero)
+    {
         this.numero = numero;
     }
 
-    public String getDescricao() {
+    public String getDescricao()
+    {
         return descricao;
     }
 
-    public void setDescricao(String descricao) {
+    public void setDescricao(String descricao)
+    {
         this.descricao = descricao;
     }
 
-    public LocalDate getDataOcorrido() {
+    public LocalDate getDataOcorrido()
+    {
         return dataOcorrido;
     }
 
-    public void setDataOcorrido(LocalDate dataOcorrido) {
+    public void setDataOcorrido(LocalDate dataOcorrido)
+    {
         this.dataOcorrido = dataOcorrido;
     }
 
-    public BigDecimal getValorEstimado() {
+    public BigDecimal getValorEstimado()
+    {
         return valorEstimado;
     }
 
-    public void setValorEstimado(BigDecimal valorEstimado) {
+    public void setValorEstimado(BigDecimal valorEstimado)
+    {
         this.valorEstimado = valorEstimado;
     }
 
-    public Status getStatus() {
+    public Status getStatus()
+    {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(Status status)
+    {
         this.status = status;
     }
 
-    public enum Status {
+    public enum Status
+    {
         EM_ANALISE, APROVADO, REJEITADO
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (!(o instanceof Sinistro sinistro)) return false;
         return Objects.equals(getId(), sinistro.getId()) && Objects.equals(getNumero(), sinistro.getNumero());
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(getId(), getNumero());
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Sinistro{" +
                 "id=" + id +
                 ", apolice=" + apolice +

@@ -5,10 +5,11 @@ import br.dev.paulowolfgang.gestao_apolices.dto.response.ClienteResponseDto;
 
 import java.util.List;
 
-public interface IClienteService {
+public interface IClienteService
+{
     ClienteResponseDto salvar(ClienteRequestDto clienteRequest);
-    ClienteResponseDto buscarPorId(Long id);
-    List<ClienteResponseDto> listarTodos();
     ClienteResponseDto atualizar(Long id, ClienteRequestDto clienteAtualizado);
     void remover(Long id);
+    List<ClienteResponseDto> listarTodos();
+    ClienteResponseDto buscarPorId(Long id);
 }

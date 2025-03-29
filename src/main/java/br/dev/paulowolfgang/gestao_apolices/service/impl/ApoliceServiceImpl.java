@@ -11,22 +11,27 @@ import br.dev.paulowolfgang.gestao_apolices.repository.IApoliceRepository;
 import br.dev.paulowolfgang.gestao_apolices.repository.IClienteRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.IApoliceService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class ApoliceServiceImpl implements IApoliceService {
+public class ApoliceServiceImpl implements IApoliceService
+{
 
     private final IApoliceRepository apoliceRepository;
     private final IClienteRepository clienteRepository;
 
-    public ApoliceServiceImpl(IApoliceRepository apoliceRepository, IClienteRepository clienteRepository) {
+    public ApoliceServiceImpl(IApoliceRepository apoliceRepository, IClienteRepository clienteRepository)
+    {
         this.apoliceRepository = apoliceRepository;
         this.clienteRepository = clienteRepository;
     }
 
     @Override
-    public ApoliceResponseDto salvar(ApoliceRequestDto request) {
+    @Transactional
+    public ApoliceResponseDto salvar(ApoliceRequestDto request)
+    {
         Cliente cliente = clienteRepository.findById(request.getClienteId())
                 .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado com o ID: " + request.getClienteId()));
         Apolice apolice = ApoliceMapper.converter(request);
@@ -37,33 +42,45 @@ public class ApoliceServiceImpl implements IApoliceService {
     }
 
     @Override
-    public List<ApoliceResponseDto> listarTodos() {
+    @Transactional
+    public ApoliceResponseDto atualizar(String numero, ApoliceRequestDto apoliceAtualizada)
+    {
+        Apolice apolice = apoliceRepository.findByNumero(numero)
+                .orElseThrow(() -> new ApoliceNaoEncontradaException(String.format("Apólice não encontrada para o número: " + numero)));
+        ApoliceMapper.copiarParaPropriedades(apoliceAtualizada, apolice);
+        apolice = apoliceRepository.save(apolice);
+
+        return ApoliceMapper.converter(apolice);
+    }
+
+    @Override
+    @Transactional
+    public void remover(String numero)
+    {
+        Apolice apolice = apoliceRepository.findByNumero(numero)
+                .orElseThrow(() -> new ApoliceNaoEncontradaException(String.format("Apólice não encontrada para o número: " + numero)));
+
+        apoliceRepository.deleteById(apolice.getId());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ApoliceResponseDto> listarTodos()
+    {
         List<Apolice> apolices = apoliceRepository.findAll();
+
         return apolices.stream()
                 .map(ApoliceMapper::converter)
                 .toList();
     }
 
     @Override
-    public ApoliceResponseDto buscarPorNumero(String numero) {
+    @Transactional(readOnly = true)
+    public ApoliceResponseDto buscarPorNumero(String numero)
+    {
         Apolice apolice = apoliceRepository.findByNumero(numero)
                 .orElseThrow(() -> new ApoliceNaoEncontradaException(String.format("Apólice não encontrada para o número: " + numero)));
-        return ApoliceMapper.converter(apolice);
-    }
 
-    @Override
-    public ApoliceResponseDto atualizar(String numero, ApoliceRequestDto apoliceAtualizada) {
-        Apolice apolice = apoliceRepository.findByNumero(numero)
-                .orElseThrow(() -> new ApoliceNaoEncontradaException(String.format("Apólice não encontrada para o número: " + numero)));
-        ApoliceMapper.copiarParaPropriedades(apoliceAtualizada, apolice);
-        apolice = apoliceRepository.save(apolice);
         return ApoliceMapper.converter(apolice);
-    }
-
-    @Override
-    public void remover(String numero) {
-        Apolice apolice = apoliceRepository.findByNumero(numero)
-                .orElseThrow(() -> new ApoliceNaoEncontradaException(String.format("Apólice não encontrada para o número: " + numero)));
-        apoliceRepository.deleteById(apolice.getId());
     }
 }

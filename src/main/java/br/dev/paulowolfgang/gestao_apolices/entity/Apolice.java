@@ -10,7 +10,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "apolices")
-public class Apolice {
+public class Apolice
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,14 +63,16 @@ public class Apolice {
 
     private static final String PREFIXO = "APL-";
 
-    public Apolice() {
+    public Apolice()
+    {
         this.numero = gerarNumero();
     }
 
     public Apolice(Long id, Cliente cliente, String numero,
                    BigDecimal valorCobertura, BigDecimal premioMensal, BigDecimal premioTotal,
                    Integer parcelasTotais, Integer parcelasPagas, LocalDate dataInicio,
-                   LocalDate dataFim, Tipo tipo, Status status) {
+                   LocalDate dataFim, Tipo tipo, Status status)
+    {
         this.id = id;
         this.cliente = cliente;
         this.numero = numero;
@@ -85,134 +88,166 @@ public class Apolice {
     }
 
     @PrePersist
-    public void prePersist() {
-        if (this.numero == null || this.numero.isEmpty()) {
+    public void prePersist()
+    {
+        if (this.numero == null || this.numero.isEmpty())
+        {
             this.numero = gerarNumero();
         }
     }
 
-    private String gerarNumero() {
+    private String gerarNumero()
+    {
         return PREFIXO + UUID.randomUUID().toString();
     }
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public Cliente getCliente() {
+    public Cliente getCliente()
+    {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(Cliente cliente)
+    {
         this.cliente = cliente;
     }
 
-    public String getNumero() {
+    public String getNumero()
+    {
         return numero;
     }
 
-    public void setNumero(String numero) {
+    public void setNumero(String numero)
+    {
         this.numero = numero;
     }
 
-    public BigDecimal getValorCobertura() {
+    public BigDecimal getValorCobertura()
+    {
         return valorCobertura;
     }
 
-    public void setValorCobertura(BigDecimal valorCobertura) {
+    public void setValorCobertura(BigDecimal valorCobertura)
+    {
         this.valorCobertura = valorCobertura;
     }
 
-    public BigDecimal getPremioMensal() {
+    public BigDecimal getPremioMensal()
+    {
         return premioMensal;
     }
 
-    public void setPremioMensal(BigDecimal premioMensal) {
+    public void setPremioMensal(BigDecimal premioMensal)
+    {
         this.premioMensal = premioMensal;
     }
 
-    public BigDecimal getPremioTotal() {
+    public BigDecimal getPremioTotal()
+    {
         return premioTotal;
     }
 
-    public void setPremioTotal(BigDecimal premioTotal) {
+    public void setPremioTotal(BigDecimal premioTotal)
+    {
         this.premioTotal = premioTotal;
     }
 
-    public Integer getParcelasTotais() {
+    public Integer getParcelasTotais()
+    {
         return parcelasTotais;
     }
 
-    public void setParcelasTotais(Integer parcelasTotais) {
+    public void setParcelasTotais(Integer parcelasTotais)
+    {
         this.parcelasTotais = parcelasTotais;
     }
 
-    public Integer getParcelasPagas() {
+    public Integer getParcelasPagas()
+    {
         return parcelasPagas;
     }
 
-    public void setParcelasPagas(Integer parcelasPagas) {
+    public void setParcelasPagas(Integer parcelasPagas)
+    {
         this.parcelasPagas = parcelasPagas;
     }
 
-    public LocalDate getDataInicio() {
+    public LocalDate getDataInicio()
+    {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDate dataInicio) {
+    public void setDataInicio(LocalDate dataInicio)
+    {
         this.dataInicio = dataInicio;
     }
 
-    public LocalDate getDataFim() {
+    public LocalDate getDataFim()
+    {
         return dataFim;
     }
 
-    public void setDataFim(LocalDate dataFim) {
+    public void setDataFim(LocalDate dataFim)
+    {
         this.dataFim = dataFim;
     }
 
-    public Tipo getTipo() {
+    public Tipo getTipo()
+    {
         return tipo;
     }
 
-    public void setTipo(Tipo tipo) {
+    public void setTipo(Tipo tipo)
+    {
         this.tipo = tipo;
     }
 
-    public Status getStatus() {
+    public Status getStatus()
+    {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(Status status)
+    {
         this.status = status;
     }
 
-    public enum Tipo {
+    public enum Tipo
+    {
         VEICULO, RESIDENCIA, VIDA, SAUDE
     }
 
-    public enum Status {
+    public enum Status
+    {
         ATIVA, CANCELADA, SUSPENSA
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (!(o instanceof Apolice apolice)) return false;
         return Objects.equals(getId(), apolice.getId()) && Objects.equals(getNumero(), apolice.getNumero());
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(getId(), getNumero());
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Apolice{" +
                 "id=" + id +
                 ", cliente=" + cliente +

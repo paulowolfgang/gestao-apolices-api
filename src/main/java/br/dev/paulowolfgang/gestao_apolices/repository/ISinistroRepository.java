@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ISinistroRepository extends JpaRepository<Sinistro, Long> {
+public interface ISinistroRepository extends JpaRepository<Sinistro, Long>
+{
     Optional<Sinistro> findByNumero(String numero);
 }

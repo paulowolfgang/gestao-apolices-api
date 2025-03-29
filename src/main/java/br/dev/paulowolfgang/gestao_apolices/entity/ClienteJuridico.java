@@ -8,7 +8,8 @@ import java.time.LocalDate;
 
 @Entity
 @DiscriminatorValue("JURIDICO")
-public class ClienteJuridico extends Cliente {
+public class ClienteJuridico extends Cliente
+{
 
     @Column(name = "nome_fantasia", nullable = false, length = 100)
     private String nomeFantasia;
@@ -24,7 +25,9 @@ public class ClienteJuridico extends Cliente {
 
     protected ClienteJuridico() {}
 
-    public ClienteJuridico(String email, String endereco, String telefone, String nomeFantasia, String razaoSocial, String cnpj, LocalDate dataAbertura) {
+    public ClienteJuridico(String email, String endereco, String telefone, String nomeFantasia, String razaoSocial,
+                           String cnpj, LocalDate dataAbertura)
+    {
         super(email, endereco, telefone);
         this.nomeFantasia = nomeFantasia;
         this.razaoSocial = razaoSocial;
@@ -32,40 +35,49 @@ public class ClienteJuridico extends Cliente {
         this.dataAbertura = dataAbertura;
     }
 
-    public String getNomeFantasia() {
+    public String getNomeFantasia()
+    {
         return nomeFantasia;
     }
 
-    public void setNomeFantasia(String nomeFantasia) {
+    public void setNomeFantasia(String nomeFantasia)
+    {
         this.nomeFantasia = nomeFantasia;
     }
 
-    public String getRazaoSocial() {
+    public String getRazaoSocial()
+    {
         return razaoSocial;
     }
 
-    public void setRazaoSocial(String razaoSocial) {
+    public void setRazaoSocial(String razaoSocial)
+    {
         this.razaoSocial = razaoSocial;
     }
 
-    public String getCnpj() {
+    public String getCnpj()
+    {
         return cnpj;
     }
 
-    public void setCnpj(String cnpj) {
+    public void setCnpj(String cnpj)
+    {
         this.cnpj = cnpj;
     }
 
-    public LocalDate getDataAbertura() {
+    public LocalDate getDataAbertura()
+    {
         return dataAbertura;
     }
 
-    public void setDataAbertura(LocalDate dataAbertura) {
+    public void setDataAbertura(LocalDate dataAbertura)
+    {
         this.dataAbertura = dataAbertura;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "ClienteJuridico{" +
                 "nomeFantasia='" + nomeFantasia + '\'' +
                 ", razaoSocial='" + razaoSocial + '\'' +

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface IApoliceRepository extends JpaRepository<Apolice, Long> {
+public interface IApoliceRepository extends JpaRepository<Apolice, Long>
+{
     Optional<Apolice> findByNumero(String numero);
 }

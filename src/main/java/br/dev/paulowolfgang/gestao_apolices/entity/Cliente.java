@@ -21,7 +21,8 @@ import java.util.Objects;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "clientes")
-public abstract class Cliente {
+public abstract class Cliente
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,70 +51,85 @@ public abstract class Cliente {
 
     public Cliente(){}
 
-    protected Cliente(String email, String telefone, String endereco) {
+    protected Cliente(String email, String telefone, String endereco)
+    {
         this.email = email;
         this.telefone = telefone;
         this.endereco = endereco;
     }
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public Usuario getUsuario() {
+    public Usuario getUsuario()
+    {
         return usuario;
     }
 
-    public void setUsuario(Usuario usuario) {
+    public void setUsuario(Usuario usuario)
+    {
         this.usuario = usuario;
     }
 
-    public String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
-    public String getEndereco() {
+    public String getEndereco()
+    {
         return endereco;
     }
 
-    public void setEndereco(String endereco) {
+    public void setEndereco(String endereco)
+    {
         this.endereco = endereco;
     }
 
-    public String getTelefone() {
+    public String getTelefone()
+    {
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
+    public void setTelefone(String telefone)
+    {
         this.telefone = telefone;
     }
 
-    public LocalDateTime getDataCriacao() {
+    public LocalDateTime getDataCriacao()
+    {
         return dataCriacao;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (!(o instanceof Cliente cliente)) return false;
         return Objects.equals(getId(), cliente.getId());
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(getId());
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Cliente{" +
                 "id=" + id +
                 ", email='" + email + '\'' +

@@ -10,7 +10,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "pagamentos")
-public class Pagamento {
+public class Pagamento
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,12 +42,14 @@ public class Pagamento {
 
     private static final String PREFIXO = "PGT-";
 
-    public Pagamento(){
+    public Pagamento()
+    {
         this.numero = gerarNumero();
     }
 
     public Pagamento(Long id, Apolice apolice, String numero, BigDecimal valor,
-                     LocalDate dataVencimento, LocalDate dataPagamento, Status status) {
+                     LocalDate dataVencimento, LocalDate dataPagamento, Status status)
+    {
         this.id = id;
         this.apolice = apolice;
         this.numero = numero;
@@ -57,69 +60,86 @@ public class Pagamento {
     }
 
     @PrePersist
-    public void prePersist() {
-        if (this.numero == null || this.numero.isEmpty()) {
+    public void prePersist()
+    {
+        if (this.numero == null || this.numero.isEmpty())
+        {
             this.numero = gerarNumero();
         }
     }
 
-    private String gerarNumero() {
+    private String gerarNumero()
+    {
         return PREFIXO + UUID.randomUUID().toString();
     }
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public Apolice getApolice() {
+    public Apolice getApolice()
+    {
         return apolice;
     }
 
-    public void setApolice(Apolice apolice) {
+    public void setApolice(Apolice apolice)
+    {
         this.apolice = apolice;
     }
 
-    public String getNumero() {
+    public String getNumero()
+    {
         return numero;
     }
 
-    public void setNumero(String numero) {
+    public void setNumero(String numero)
+    {
         this.numero = numero;
     }
 
-    public BigDecimal getValor() {
+    public BigDecimal getValor()
+    {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
+    public void setValor(BigDecimal valor)
+    {
         this.valor = valor;
     }
 
-    public LocalDate getDataVencimento() {
+    public LocalDate getDataVencimento()
+    {
         return dataVencimento;
     }
 
-    public void setDataVencimento(LocalDate dataVencimento) {
+    public void setDataVencimento(LocalDate dataVencimento)
+    {
         this.dataVencimento = dataVencimento;
     }
 
-    public LocalDate getDataPagamento() {
+    public LocalDate getDataPagamento()
+    {
         return dataPagamento;
     }
 
-    public void setDataPagamento(LocalDate dataPagamento) {
+    public void setDataPagamento(LocalDate dataPagamento)
+    {
         this.dataPagamento = dataPagamento;
     }
 
-    public Status getStatus() {
+    public Status getStatus()
+    {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(Status status)
+    {
         this.status = status;
     }
 
@@ -129,19 +149,22 @@ public class Pagamento {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (!(o instanceof Pagamento pagamento)) return false;
         return Objects.equals(getId(), pagamento.getId());
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(getId());
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Pagamento{" +
                 "id=" + id +
                 ", apolice=" + apolice +
