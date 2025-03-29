@@ -11,6 +11,7 @@ import br.dev.paulowolfgang.gestao_apolices.repository.IApoliceRepository;
 import br.dev.paulowolfgang.gestao_apolices.repository.ISinistroRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.ISinistroService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class SinistroServiceImpl implements ISinistroService {
     }
 
     @Override
+    @Transactional
     public SinistroResponseDto salvar(SinistroRequestDto request) {
         Apolice apolice = apoliceRepository.findByNumero(request.getApoliceNumero())
                 .orElseThrow(() -> new ApoliceNaoEncontradaException("Apólice não encontrada com o número: " + request.getApoliceNumero()));
@@ -36,6 +38,7 @@ public class SinistroServiceImpl implements ISinistroService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public SinistroResponseDto buscarPorNumero(String numero) {
         Sinistro sinistro = sinistroRepository.findByNumero(numero)
                 .orElseThrow(() -> new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o número: " + numero)));
@@ -43,6 +46,7 @@ public class SinistroServiceImpl implements ISinistroService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<SinistroResponseDto> listarTodos() {
         List<Sinistro> sinistros = sinistroRepository.findAll();
         return sinistros.stream()
@@ -51,14 +55,17 @@ public class SinistroServiceImpl implements ISinistroService {
     }
 
     @Override
+    @Transactional
     public SinistroResponseDto atualizar(String numero, SinistroRequestDto sinistroAtualizado) {
         Sinistro sinistro = sinistroRepository.findByNumero(numero)
                 .orElseThrow(() -> new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o número: " + numero)));
         SinistroMapper.copiarParaPropriedades(sinistroAtualizado, sinistro);
+        sinistro = sinistroRepository.save(sinistro);
         return SinistroMapper.converter(sinistro);
     }
 
     @Override
+    @Transactional
     public void remover(String numero) {
         Sinistro sinistro = sinistroRepository.findByNumero(numero)
                 .orElseThrow(() -> new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o número: " + numero)));
