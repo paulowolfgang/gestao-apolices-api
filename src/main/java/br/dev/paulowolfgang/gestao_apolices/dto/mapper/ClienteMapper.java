@@ -11,47 +11,64 @@ import br.dev.paulowolfgang.gestao_apolices.entity.ClienteFisico;
 import br.dev.paulowolfgang.gestao_apolices.entity.ClienteJuridico;
 import org.modelmapper.ModelMapper;
 
-public class ClienteMapper {
+public class ClienteMapper
+{
 
     private static final ModelMapper mapper = new ModelMapper();
 
-    public static Cliente converter(ClienteRequestDto request) {
-        if (request instanceof ClienteFisicoRequestDto) {
+    public static Cliente converter(ClienteRequestDto request)
+    {
+        if (request instanceof ClienteFisicoRequestDto)
+        {
             return mapper.map(request, ClienteFisico.class);
-        } else if (request instanceof ClienteJuridicoRequestDto) {
+        }
+        else if (request instanceof ClienteJuridicoRequestDto)
+        {
             return mapper.map(request, ClienteJuridico.class);
         }
+
         throw new IllegalArgumentException("Tipo de ClienteRequestDto desconhecido.");
     }
 
-    public static ClienteResponseDto converter(Cliente cliente) {
-        if (cliente instanceof ClienteFisico) {
+    public static ClienteResponseDto converter(Cliente cliente)
+    {
+        if (cliente instanceof ClienteFisico)
+        {
             return mapper.map(cliente, ClienteFisicoResponseDto.class);
-        } else if (cliente instanceof ClienteJuridico) {
+        }
+        else if (cliente instanceof ClienteJuridico)
+        {
             return mapper.map(cliente, ClienteJuridicoResponseDto.class);
         }
+
         throw new IllegalArgumentException("Tipo de Cliente desconhecido.");
     }
 
-    public static void copiarParaPropriedades(ClienteRequestDto dto, Cliente cliente) {
+    public static void copiarParaPropriedades(ClienteRequestDto dto, Cliente cliente)
+    {
         cliente.setEmail(dto.getEmail());
         cliente.setEndereco(dto.getEndereco());
         cliente.setTelefone(dto.getTelefone());
 
-        if (cliente instanceof ClienteFisico && dto instanceof ClienteFisicoRequestDto) {
+        if (cliente instanceof ClienteFisico && dto instanceof ClienteFisicoRequestDto)
+        {
             ClienteFisico clienteFisico = (ClienteFisico) cliente;
             ClienteFisicoRequestDto clienteFisicoDto = (ClienteFisicoRequestDto) dto;
             clienteFisico.setNome(clienteFisicoDto.getNome());
             clienteFisico.setCpf(clienteFisicoDto.getCpf());
             clienteFisico.setDataNascimento(clienteFisicoDto.getDataNascimento());
-        } else if (cliente instanceof ClienteJuridico && dto instanceof ClienteJuridicoRequestDto) {
+        }
+        else if (cliente instanceof ClienteJuridico && dto instanceof ClienteJuridicoRequestDto)
+        {
             ClienteJuridico clienteJuridico = (ClienteJuridico) cliente;
             ClienteJuridicoRequestDto clienteJuridicoDto = (ClienteJuridicoRequestDto) dto;
             clienteJuridico.setNomeFantasia(clienteJuridicoDto.getNomeFantasia());
             clienteJuridico.setRazaoSocial(clienteJuridicoDto.getRazaoSocial());
             clienteJuridico.setCnpj(clienteJuridicoDto.getCnpj());
             clienteJuridico.setDataAbertura(clienteJuridicoDto.getDataAbertura());
-        } else {
+        }
+        else
+        {
             throw new IllegalArgumentException("Tipo de cliente incompatível para cópia de propriedades.");
         }
     }

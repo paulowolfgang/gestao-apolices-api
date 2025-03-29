@@ -4,7 +4,8 @@ import br.dev.paulowolfgang.gestao_apolices.entity.Usuario;
 
 import java.time.LocalDateTime;
 
-public class UsuarioRequestDto {
+public class UsuarioRequestDto
+{
 
     private String nome;
     private String email;
@@ -12,43 +13,53 @@ public class UsuarioRequestDto {
     private Usuario.Papel papel;
     private LocalDateTime dataCriacao;
 
-    public String getNome() {
+    public String getNome()
+    {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(String nome)
+    {
         this.nome = nome;
     }
 
-    public String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
-    public String getSenha() {
+    public String getSenha()
+    {
         return senha;
     }
 
-    public void setSenha(String senha) {
+    public void setSenha(String senha)
+    {
         this.senha = senha;
     }
 
-    public Usuario.Papel getPapel() {
+    public Usuario.Papel getPapel()
+    {
         return papel;
     }
 
-    public void setPapel(Usuario.Papel papel) {
+    public void setPapel(Usuario.Papel papel)
+    {
         this.papel = papel;
     }
 
-    public LocalDateTime getDataCriacao() {
+    public LocalDateTime getDataCriacao()
+    {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDateTime dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao)
+    {
         this.dataCriacao = dataCriacao;
     }
 }

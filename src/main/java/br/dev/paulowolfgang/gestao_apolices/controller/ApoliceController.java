@@ -11,38 +11,45 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/apolices")
-public class ApoliceController {
+public class ApoliceController
+{
 
     private final IApoliceService apoliceService;
 
-    public ApoliceController(IApoliceService apoliceService) {
+    public ApoliceController(IApoliceService apoliceService)
+    {
         this.apoliceService = apoliceService;
     }
 
     @PostMapping
-    public ResponseEntity<ApoliceResponseDto> salvar(@RequestBody ApoliceRequestDto request){
+    public ResponseEntity<ApoliceResponseDto> salvar(@RequestBody ApoliceRequestDto request)
+    {
         ApoliceResponseDto response = apoliceService.salvar(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ApoliceResponseDto>> listarTodos(){
-        return ResponseEntity.status(HttpStatus.OK).body(apoliceService.listarTodos());
-    }
-
-    @GetMapping("/numero/{numero}")
-    public ResponseEntity<ApoliceResponseDto> buscarPorNumero(@PathVariable String numero) {
-        return ResponseEntity.status(HttpStatus.OK).body(apoliceService.buscarPorNumero(numero));
-    }
-
     @PutMapping("/{numero}")
-    public ResponseEntity<ApoliceResponseDto> atualizar(@PathVariable String numero, @RequestBody ApoliceRequestDto request) {
+    public ResponseEntity<ApoliceResponseDto> atualizar(@PathVariable String numero, @RequestBody ApoliceRequestDto request)
+    {
         return ResponseEntity.status(HttpStatus.OK).body(apoliceService.atualizar(numero, request));
     }
 
     @DeleteMapping("/{numero}")
-    public ResponseEntity<Void> remover(@PathVariable String numero) {
+    public ResponseEntity<Void> remover(@PathVariable String numero)
+    {
         apoliceService.remover(numero);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ApoliceResponseDto>> listarTodos()
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(apoliceService.listarTodos());
+    }
+
+    @GetMapping("/numero/{numero}")
+    public ResponseEntity<ApoliceResponseDto> buscarPorNumero(@PathVariable String numero)
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(apoliceService.buscarPorNumero(numero));
     }
 }

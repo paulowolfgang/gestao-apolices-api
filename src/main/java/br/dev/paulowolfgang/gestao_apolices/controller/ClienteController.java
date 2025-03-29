@@ -11,7 +11,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/clientes")
-public class ClienteController {
+public class ClienteController
+{
 
     private final IClienteService clienteService;
 
@@ -27,18 +28,6 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ClienteResponseDto> buscarPorId(@PathVariable Long id)
-    {
-        return ResponseEntity.status(HttpStatus.OK).body(clienteService.buscarPorId(id));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<ClienteResponseDto>> listarTodos()
-    {
-        return ResponseEntity.status(HttpStatus.OK).body(clienteService.listarTodos());
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<ClienteResponseDto> atualizar(@PathVariable Long id, @RequestBody ClienteRequestDto request)
     {
@@ -50,5 +39,17 @@ public class ClienteController {
     {
         clienteService.remover(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ClienteResponseDto>> listarTodos()
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(clienteService.listarTodos());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClienteResponseDto> buscarPorId(@PathVariable Long id)
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(clienteService.buscarPorId(id));
     }
 }

@@ -12,42 +12,51 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = ClienteFisicoRequestDto.class, name = "FISICO"),
         @JsonSubTypes.Type(value = ClienteJuridicoRequestDto.class, name = "JURIDICO")
 })
-public class ClienteRequestDto {
+public class ClienteRequestDto
+{
 
     private Long usuarioId;
     private String email;
     private String endereco;
     private String telefone;
 
-    public Long getUsuarioId() {
+    public Long getUsuarioId()
+    {
         return usuarioId;
     }
 
-    public void setUsuarioId(Long usuarioId) {
+    public void setUsuarioId(Long usuarioId)
+    {
         this.usuarioId = usuarioId;
     }
 
-    public String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
-    public String getEndereco() {
+    public String getEndereco()
+    {
         return endereco;
     }
 
-    public void setEndereco(String endereco) {
+    public void setEndereco(String endereco)
+    {
         this.endereco = endereco;
     }
 
-    public String getTelefone() {
+    public String getTelefone()
+    {
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
+    public void setTelefone(String telefone)
+    {
         this.telefone = telefone;
     }
 }

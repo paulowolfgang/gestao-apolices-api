@@ -5,7 +5,8 @@ import br.dev.paulowolfgang.gestao_apolices.entity.Pagamento;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class PagamentoRequestDto {
+public class PagamentoRequestDto
+{
 
     private String apoliceNumero;
     private BigDecimal valor;
@@ -13,43 +14,53 @@ public class PagamentoRequestDto {
     private LocalDate dataPagamento;
     private Pagamento.Status status;
 
-    public String getApoliceNumero() {
+    public String getApoliceNumero()
+    {
         return apoliceNumero;
     }
 
-    public void setApoliceNumero(String apoliceNumero) {
+    public void setApoliceNumero(String apoliceNumero)
+    {
         this.apoliceNumero = apoliceNumero;
     }
 
-    public BigDecimal getValor() {
+    public BigDecimal getValor()
+    {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
+    public void setValor(BigDecimal valor)
+    {
         this.valor = valor;
     }
 
-    public LocalDate getDataVencimento() {
+    public LocalDate getDataVencimento()
+    {
         return dataVencimento;
     }
 
-    public void setDataVencimento(LocalDate dataVencimento) {
+    public void setDataVencimento(LocalDate dataVencimento)
+    {
         this.dataVencimento = dataVencimento;
     }
 
-    public LocalDate getDataPagamento() {
+    public LocalDate getDataPagamento()
+    {
         return dataPagamento;
     }
 
-    public void setDataPagamento(LocalDate dataPagamento) {
+    public void setDataPagamento(LocalDate dataPagamento)
+    {
         this.dataPagamento = dataPagamento;
     }
 
-    public Pagamento.Status getStatus() {
+    public Pagamento.Status getStatus()
+    {
         return status;
     }
 
-    public void setStatus(Pagamento.Status status) {
+    public void setStatus(Pagamento.Status status)
+    {
         this.status = status;
     }
 }

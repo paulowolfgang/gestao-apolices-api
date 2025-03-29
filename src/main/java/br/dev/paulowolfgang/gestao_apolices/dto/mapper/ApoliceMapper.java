@@ -6,31 +6,38 @@ import br.dev.paulowolfgang.gestao_apolices.entity.Apolice;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
-public class ApoliceMapper {
+public class ApoliceMapper
+{
 
     private static final ModelMapper mapper = new ModelMapper();
 
-    static {
-        mapper.addMappings(new PropertyMap<ApoliceRequestDto, Apolice>() {
+    static
+    {
+        mapper.addMappings(new PropertyMap<ApoliceRequestDto, Apolice>()
+        {
             @Override
-            protected void configure() {
+            protected void configure()
+            {
                 skip(destination.getId());
                 skip(destination.getCliente());
             }
         });
     }
 
-    public static Apolice converter(ApoliceRequestDto request) {
+    public static Apolice converter(ApoliceRequestDto request)
+    {
         return mapper.map(request, Apolice.class);
     }
 
-    public static ApoliceResponseDto converter(Apolice apolice) {
+    public static ApoliceResponseDto converter(Apolice apolice)
+    {
         ApoliceResponseDto dto = mapper.map(apolice, ApoliceResponseDto.class);
         dto.setClienteId(apolice.getCliente().getId());
         return dto;
     }
 
-    public static void copiarParaPropriedades(ApoliceRequestDto request, Apolice apolice) {
+    public static void copiarParaPropriedades(ApoliceRequestDto request, Apolice apolice)
+    {
         mapper.map(request, apolice);
     }
 }

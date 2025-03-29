@@ -11,38 +11,45 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/sinistros")
-public class SinistroController {
+public class SinistroController
+{
 
     private final ISinistroService sinistroService;
 
-    public SinistroController(ISinistroService sinistroService) {
+    public SinistroController(ISinistroService sinistroService)
+    {
         this.sinistroService = sinistroService;
     }
 
     @PostMapping
-    public ResponseEntity<SinistroResponseDto> salvar(@RequestBody SinistroRequestDto request){
+    public ResponseEntity<SinistroResponseDto> salvar(@RequestBody SinistroRequestDto request)
+    {
         SinistroResponseDto response = sinistroService.salvar(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{numero}")
-    public ResponseEntity<SinistroResponseDto> buscarPorNumero(@PathVariable String numero){
-        return ResponseEntity.status(HttpStatus.OK).body(sinistroService.buscarPorNumero(numero));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<SinistroResponseDto>> listarTodos(){
-         return ResponseEntity.status(HttpStatus.OK).body(sinistroService.listarTodos());
-    }
-
     @PutMapping("/{numero}")
-    public ResponseEntity<SinistroResponseDto> atualizar(@PathVariable String numero, @RequestBody SinistroRequestDto request){
+    public ResponseEntity<SinistroResponseDto> atualizar(@PathVariable String numero, @RequestBody SinistroRequestDto request)
+    {
         return ResponseEntity.status(HttpStatus.OK).body(sinistroService.atualizar(numero, request));
     }
 
     @DeleteMapping("/{numero}")
-    public ResponseEntity<Void> remover(@PathVariable String numero){
+    public ResponseEntity<Void> remover(@PathVariable String numero)
+    {
         sinistroService.remover(numero);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<SinistroResponseDto>> listarTodos()
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(sinistroService.listarTodos());
+    }
+
+    @GetMapping("/{numero}")
+    public ResponseEntity<SinistroResponseDto> buscarPorNumero(@PathVariable String numero)
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(sinistroService.buscarPorNumero(numero));
     }
 }

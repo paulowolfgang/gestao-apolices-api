@@ -11,7 +11,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/usuarios")
-public class UsuarioController {
+public class UsuarioController
+{
 
     private final IUsuarioService usuarioService;
 
@@ -27,18 +28,6 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDto> buscarPorId(@PathVariable Long id)
-    {
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.buscarPorId(id));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<UsuarioResponseDto>> listarTodos()
-    {
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.listarTodos());
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioResponseDto> atualizar(@PathVariable Long id, @RequestBody UsuarioRequestDto request)
     {
@@ -50,5 +39,17 @@ public class UsuarioController {
     {
         usuarioService.remover(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UsuarioResponseDto>> listarTodos()
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.listarTodos());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioResponseDto> buscarPorId(@PathVariable Long id)
+    {
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.buscarPorId(id));
     }
 }
