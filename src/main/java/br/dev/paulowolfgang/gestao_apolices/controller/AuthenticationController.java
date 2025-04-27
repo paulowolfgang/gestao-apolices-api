@@ -1,7 +1,9 @@
 package br.dev.paulowolfgang.gestao_apolices.controller;
 
+import br.dev.paulowolfgang.gestao_apolices.config.TokenService;
 import br.dev.paulowolfgang.gestao_apolices.dto.request.UsuarioRequestDto;
 import br.dev.paulowolfgang.gestao_apolices.entity.AuthenticationDto;
+import br.dev.paulowolfgang.gestao_apolices.entity.LoginResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.entity.Usuario;
 import br.dev.paulowolfgang.gestao_apolices.repository.IUsuarioRepository;
 import jakarta.validation.Valid;
@@ -28,6 +30,8 @@ public class AuthenticationController
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping("/logar")
     public ResponseEntity logar(@RequestBody @Valid AuthenticationDto data)
@@ -35,7 +39,9 @@ public class AuthenticationController
         var emailSenha = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
         var auth = this.authenticationManager.authenticate(emailSenha);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDto(token));
     }
 
     @PostMapping("/registrar")

@@ -11,3 +11,5 @@ spring:
     user:
       name: admin
       password: admin123
+    token:
+      secret: my-secret-key
