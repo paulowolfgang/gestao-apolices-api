@@ -25,16 +25,6 @@ public class UsuarioServiceImpl implements IUsuarioService
 
     @Override
     @Transactional
-    public UsuarioResponseDto salvar(UsuarioRequestDto usuarioRequest)
-    {
-        Usuario usuario = UsuarioMapper.converter(usuarioRequest);
-        usuario = usuarioRepository.save(usuario);
-
-        return UsuarioMapper.converter(usuario);
-    }
-
-    @Override
-    @Transactional
     public UsuarioResponseDto atualizar(Long id, UsuarioRequestDto usuarioAtualizado)
     {
         Usuario usuario = usuarioRepository.findById(id)

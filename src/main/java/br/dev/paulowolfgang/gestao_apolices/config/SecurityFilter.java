@@ -24,20 +24,27 @@ public class SecurityFilter extends OncePerRequestFilter
     @Autowired
     IUsuarioRepository usuarioRepository;
 
+    @Autowired
+    private TokenBlacklistService tokenBlacklistService;
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException
-    {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
         var token = this.recoverToken(request);
 
-        if(token != null)
+        if (token != null && !tokenBlacklistService.isBlacklisted(token))
         {
             var email = tokenService.validateToken(token);
 
-            Optional<UserDetails> usuario = usuarioRepository.findByEmail(email);
+            if(email != null && !email.isEmpty())
+            {
+                Optional<UserDetails> usuario = usuarioRepository.findByEmail(email);
 
-            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.get().getAuthorities());
+                var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.get().getAuthorities());
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
 
         filterChain.doFilter(request, response);

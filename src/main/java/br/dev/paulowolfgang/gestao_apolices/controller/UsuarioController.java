@@ -21,13 +21,6 @@ public class UsuarioController
         this.usuarioService = usuarioService;
     }
 
-    @PostMapping
-    public ResponseEntity<UsuarioResponseDto> salvar(@RequestBody UsuarioRequestDto request)
-    {
-        UsuarioResponseDto response = usuarioService.salvar(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioResponseDto> atualizar(@PathVariable Long id, @RequestBody UsuarioRequestDto request)
     {

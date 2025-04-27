@@ -29,7 +29,7 @@ public class SecurityConfig
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/logar").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/entrar").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/registrar").hasRole("SUPER_ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/usuarios").hasRole("SUPER_ADMIN")
                         .anyRequest().authenticated()

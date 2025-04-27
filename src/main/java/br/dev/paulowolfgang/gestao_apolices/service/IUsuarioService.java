@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface IUsuarioService
 {
-    UsuarioResponseDto salvar(UsuarioRequestDto usuarioRequest);
     UsuarioResponseDto atualizar(Long id, UsuarioRequestDto usuarioAtualizado);
     void remover(Long id);
     List<UsuarioResponseDto> listarTodos();
