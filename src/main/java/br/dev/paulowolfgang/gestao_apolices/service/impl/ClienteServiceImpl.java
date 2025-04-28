@@ -8,6 +8,8 @@ import br.dev.paulowolfgang.gestao_apolices.entity.Usuario;
 import br.dev.paulowolfgang.gestao_apolices.exception.ClienteNaoEncontradoException;
 import br.dev.paulowolfgang.gestao_apolices.repository.IClienteRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.IClienteService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,14 +30,16 @@ public class ClienteServiceImpl implements IClienteService
     @Transactional
     public ClienteResponseDto salvar(ClienteRequestDto request)
     {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // Simulação de um usuário temporário com ID fixo
-        Long idUsuarioSimulado = 1L;
-        Usuario usuarioSimulado = new Usuario();
-        usuarioSimulado.setId(idUsuarioSimulado);
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("Usuário não autenticado no sistema.");
+        }
+
+        Usuario usuarioLogado = (Usuario) authentication.getPrincipal();
 
         Cliente cliente = ClienteMapper.converter(request);
-        cliente.setUsuario(usuarioSimulado);
+        cliente.setUsuario(usuarioLogado);
         cliente = clienteRepository.save(cliente);
 
         return ClienteMapper.converter(cliente);
