@@ -115,9 +115,9 @@ public class Usuario implements UserDetails
         if(this.papel == Papel.SUPER_ADMIN)
         {
             return List.of(new SimpleGrantedAuthority("ROLE_SUPER_ADMIN"),
-                    new SimpleGrantedAuthority("ROLE_USER"));
+                    new SimpleGrantedAuthority("ROLE_CORRETOR"));
         } else {
-            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+            return List.of(new SimpleGrantedAuthority("ROLE_CORRETOR"));
         }
     }
 

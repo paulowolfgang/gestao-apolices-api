@@ -31,7 +31,9 @@ public class SecurityConfig
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/entrar").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/registrar").hasRole("SUPER_ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/usuarios").hasRole("SUPER_ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/usuarios/**").hasRole("SUPER_ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/usuarios/**").hasRole("SUPER_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/usuarios/**").hasRole("SUPER_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
