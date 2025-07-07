@@ -12,7 +12,6 @@ import java.util.UUID;
 @Table(name = "apolices")
 public class Apolice
 {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

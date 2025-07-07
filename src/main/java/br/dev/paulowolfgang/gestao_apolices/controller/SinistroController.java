@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("/api/v1/sinistros")
 public class SinistroController
 {
-
     private final ISinistroService sinistroService;
 
     public SinistroController(ISinistroService sinistroService)

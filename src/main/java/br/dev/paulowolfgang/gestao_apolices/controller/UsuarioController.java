@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping(path = "/api/v1/usuarios")
 public class UsuarioController
 {
-
     private final IUsuarioService usuarioService;
 
     public UsuarioController(IUsuarioService usuarioService)

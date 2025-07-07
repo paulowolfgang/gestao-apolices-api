@@ -12,7 +12,6 @@ import java.util.UUID;
 @Table(name = "sinistros")
 public class Sinistro
 {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

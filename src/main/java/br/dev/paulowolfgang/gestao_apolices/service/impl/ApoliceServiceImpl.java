@@ -18,7 +18,6 @@ import java.util.List;
 @Service
 public class ApoliceServiceImpl implements IApoliceService
 {
-
     private final IApoliceRepository apoliceRepository;
     private final IClienteRepository clienteRepository;
 

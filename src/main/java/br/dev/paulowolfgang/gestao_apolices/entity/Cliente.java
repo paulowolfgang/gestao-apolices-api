@@ -23,7 +23,6 @@ import java.util.Objects;
 @Table(name = "clientes")
 public abstract class Cliente
 {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

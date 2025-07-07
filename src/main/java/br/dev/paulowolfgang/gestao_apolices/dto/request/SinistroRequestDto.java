@@ -7,7 +7,6 @@ import java.time.LocalDate;
 
 public class SinistroRequestDto
 {
-
     private String apoliceNumero;
     private String descricao;
     private LocalDate dataOcorrido;

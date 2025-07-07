@@ -18,6 +18,9 @@ public class TokenService
     @Value("${spring.security.token.secret}")
     private String secret;
 
+    public static final String OFFSET_ID = "-03:00";
+    public static final String AUTH_API = "auth-api";
+
     public String generateToken(Usuario usuario)
     {
         try
@@ -25,7 +28,7 @@ public class TokenService
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT
                     .create()
-                    .withIssuer("auth-api")
+                    .withIssuer(AUTH_API)
                     .withSubject(usuario.getEmail())
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
@@ -34,7 +37,7 @@ public class TokenService
         }
         catch(JWTCreationException exception)
         {
-            throw new RuntimeException("Falha na geração do JWT", exception);
+            throw new RuntimeException("Falha na geração do JWT: ", exception);
         }
     }
 
@@ -45,7 +48,7 @@ public class TokenService
             Algorithm algorithm = Algorithm.HMAC256(secret);
 
             return JWT.require(algorithm)
-                    .withIssuer("auth-api")
+                    .withIssuer(AUTH_API)
                     .build()
                     .verify(token)
                     .getSubject();
@@ -62,6 +65,6 @@ public class TokenService
                 .now()
                 .plusHours(1)
                 .toInstant(ZoneOffset
-                        .of("-03:00"));
+                        .of(OFFSET_ID));
     }
 }

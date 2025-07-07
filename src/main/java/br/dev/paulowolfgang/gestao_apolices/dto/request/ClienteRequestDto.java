@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 public class ClienteRequestDto
 {
-
     private Long usuarioId;
     private String email;
     private String endereco;

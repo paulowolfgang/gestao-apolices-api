@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public class ClienteResponseDto
 {
-
     private Long id;
     private String email;
     private String endereco;

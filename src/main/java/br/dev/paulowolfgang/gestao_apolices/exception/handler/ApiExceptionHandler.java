@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ApiExceptionHandler
 {
-
     @ExceptionHandler(UsuarioNaoEncontradoException.class)
     public ResponseEntity<ApiError> handlerUsuarioNaoEncontradoException(UsuarioNaoEncontradoException usuarioNaoEncontradoException)
     {

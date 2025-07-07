@@ -7,7 +7,6 @@ import java.time.LocalDate;
 
 public class ApoliceRequestDto
 {
-
     private Long clienteId;
     private BigDecimal valorCobertura;
     private BigDecimal premioMensal;

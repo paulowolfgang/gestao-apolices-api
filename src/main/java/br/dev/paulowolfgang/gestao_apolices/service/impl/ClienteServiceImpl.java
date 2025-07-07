@@ -18,7 +18,6 @@ import java.util.List;
 @Service
 public class ClienteServiceImpl implements IClienteService
 {
-
     private final IClienteRepository clienteRepository;
 
     public ClienteServiceImpl(IClienteRepository clienteRepository)

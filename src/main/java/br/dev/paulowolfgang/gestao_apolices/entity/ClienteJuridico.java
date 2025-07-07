@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @DiscriminatorValue("JURIDICO")
 public class ClienteJuridico extends Cliente
 {
-
     @Column(name = "nome_fantasia", nullable = false, length = 100)
     private String nomeFantasia;
 

@@ -7,7 +7,6 @@ import java.time.LocalDate;
 
 public class PagamentoResponseDto
 {
-
     private Long id;
     private Long apoliceId;
     private String numero;

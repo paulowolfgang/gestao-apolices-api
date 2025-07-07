@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 public class ClienteJuridicoRequestDto extends ClienteRequestDto
 {
-
     private String nomeFantasia;
     private String razaoSocial;
     private String cnpj;

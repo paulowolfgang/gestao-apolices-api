@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("/api/v1/pagamentos")
 public class PagamentoController
 {
-
     private final IPagamentoService pagamentoService;
 
     public PagamentoController(IPagamentoService pagamentoService)

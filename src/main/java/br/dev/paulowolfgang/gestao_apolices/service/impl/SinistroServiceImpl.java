@@ -18,7 +18,6 @@ import java.util.List;
 @Service
 public class SinistroServiceImpl implements ISinistroService
 {
-
     private final ISinistroRepository sinistroRepository;
     private final IApoliceRepository apoliceRepository;
 

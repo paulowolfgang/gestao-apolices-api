@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("/api/v1/apolices")
 public class ApoliceController
 {
-
     private final IApoliceService apoliceService;
 
     public ApoliceController(IApoliceService apoliceService)

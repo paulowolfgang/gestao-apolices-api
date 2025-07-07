@@ -1,6 +1,5 @@
 package br.dev.paulowolfgang.gestao_apolices.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,8 +18,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig
 {
-    @Autowired
     SecurityFilter securityFilter;
+
+    public SecurityConfig(SecurityFilter securityFilter)
+    {
+        this.securityFilter = securityFilter;
+    }
 
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception

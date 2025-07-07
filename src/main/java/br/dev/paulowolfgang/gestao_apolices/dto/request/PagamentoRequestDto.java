@@ -7,7 +7,6 @@ import java.time.LocalDate;
 
 public class PagamentoRequestDto
 {
-
     private String apoliceNumero;
     private BigDecimal valor;
     private LocalDate dataVencimento;

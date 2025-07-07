@@ -5,7 +5,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,34 +17,43 @@ import java.util.Optional;
 @Component
 public class SecurityFilter extends OncePerRequestFilter
 {
-    @Autowired
     TokenService tokenService;
-
-    @Autowired
     IUsuarioRepository usuarioRepository;
 
-    @Autowired
-    private TokenBlacklistService tokenBlacklistService;
+    private final TokenBlacklistService tokenBlacklistService;
+
+    public SecurityFilter(TokenService tokenService, IUsuarioRepository usuarioRepository, TokenBlacklistService tokenBlacklistService)
+    {
+        this.tokenService = tokenService;
+        this.usuarioRepository = usuarioRepository;
+        this.tokenBlacklistService = tokenBlacklistService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
 
         var token = this.recoverToken(request);
 
-        if (token != null && !tokenBlacklistService.isBlacklisted(token)) {
+        if (token != null && !tokenBlacklistService.isBlacklisted(token))
+        {
             var email = tokenService.validateToken(token);
 
-            if (email != null && !email.isEmpty()) {
+            if (email != null && !email.isEmpty())
+            {
                 Optional<UserDetails> usuarioOptional = usuarioRepository.findByEmail(email);
 
-                if (usuarioOptional.isPresent()) {
+                if (usuarioOptional.isPresent())
+                {
                     UserDetails usuario = usuarioOptional.get();
+
                     var authentication = new UsernamePasswordAuthenticationToken(
                             usuario,
                             null,
                             usuario.getAuthorities()
                     );
+
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }

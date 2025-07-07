@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 public class UsuarioResponseDto
 {
-
     private Long id;
     private String nome;
     private String email;

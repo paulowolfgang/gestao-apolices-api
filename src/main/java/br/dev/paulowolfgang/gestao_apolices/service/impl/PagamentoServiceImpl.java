@@ -18,7 +18,6 @@ import java.util.List;
 @Service
 public class PagamentoServiceImpl implements IPagamentoService
 {
-
     private final IPagamentoRepository pagamentoRepository;
     private final IApoliceRepository apoliceRepository;
 

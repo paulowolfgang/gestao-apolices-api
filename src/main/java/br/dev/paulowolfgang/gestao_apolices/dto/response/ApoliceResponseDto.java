@@ -7,7 +7,6 @@ import java.time.LocalDate;
 
 public class ApoliceResponseDto
 {
-
     private Long id;
     private Long clienteId;
     private String numero;

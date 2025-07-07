@@ -8,7 +8,6 @@ import org.modelmapper.PropertyMap;
 
 public class SinistroMapper
 {
-
     private static final ModelMapper mapper = new ModelMapper();
 
     static

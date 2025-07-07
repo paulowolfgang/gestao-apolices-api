@@ -9,7 +9,6 @@ import br.dev.paulowolfgang.gestao_apolices.entity.Usuario;
 import br.dev.paulowolfgang.gestao_apolices.repository.IUsuarioRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,20 +22,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/api/v1/auth")
 public class AuthenticationController
 {
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final IUsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
+    private final TokenBlacklistService tokenBlacklistService;
 
-    @Autowired
-    private IUsuarioRepository usuarioRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
-    private TokenBlacklistService tokenBlacklistService;
+    public AuthenticationController(AuthenticationManager authenticationManager, IUsuarioRepository usuarioRepository,
+                                    PasswordEncoder passwordEncoder, TokenService tokenService,
+                                    TokenBlacklistService tokenBlacklistService)
+    {
+        this.authenticationManager = authenticationManager;
+        this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.tokenService = tokenService;
+        this.tokenBlacklistService = tokenBlacklistService;
+    }
 
     @PostMapping("/registrar")
     public ResponseEntity registrar(@RequestBody @Valid UsuarioRequestDto data)

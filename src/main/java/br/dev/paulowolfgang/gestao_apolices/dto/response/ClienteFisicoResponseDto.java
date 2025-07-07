@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 public class ClienteFisicoResponseDto extends ClienteResponseDto
 {
-
     private String nome;
     private String cpf;
     private LocalDate dataNascimento;

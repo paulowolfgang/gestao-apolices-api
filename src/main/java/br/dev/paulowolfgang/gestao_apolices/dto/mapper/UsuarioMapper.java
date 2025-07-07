@@ -7,7 +7,6 @@ import org.modelmapper.ModelMapper;
 
 public class UsuarioMapper
 {
-
     private static final ModelMapper mapper = new ModelMapper();
 
     public static Usuario converter(UsuarioRequestDto request)
