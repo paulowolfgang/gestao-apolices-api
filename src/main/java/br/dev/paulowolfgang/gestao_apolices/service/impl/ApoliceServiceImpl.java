@@ -7,6 +7,7 @@ import br.dev.paulowolfgang.gestao_apolices.entity.Apolice;
 import br.dev.paulowolfgang.gestao_apolices.entity.Cliente;
 import br.dev.paulowolfgang.gestao_apolices.exception.ApoliceNaoEncontradaException;
 import br.dev.paulowolfgang.gestao_apolices.exception.ClienteNaoEncontradoException;
+import br.dev.paulowolfgang.gestao_apolices.infra.i18n.Messages; // <— importe o utilitário
 import br.dev.paulowolfgang.gestao_apolices.repository.IApoliceRepository;
 import br.dev.paulowolfgang.gestao_apolices.repository.IClienteRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.IApoliceService;
@@ -32,7 +33,10 @@ public class ApoliceServiceImpl implements IApoliceService
     public ApoliceResponseDto salvar(ApoliceRequestDto request)
     {
         Cliente cliente = clienteRepository.findById(request.getClienteId())
-                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado com o ID: " + request.getClienteId()));
+                .orElseThrow(() -> new ClienteNaoEncontradoException(
+                        Messages.get("cliente.nao.encontrado", request.getClienteId())
+                ));
+
         Apolice apolice = ApoliceMapper.converter(request);
         apolice.setCliente(cliente);
         apolice = apoliceRepository.save(apolice);
@@ -45,7 +49,10 @@ public class ApoliceServiceImpl implements IApoliceService
     public ApoliceResponseDto atualizar(String numero, ApoliceRequestDto apoliceAtualizada)
     {
         Apolice apolice = apoliceRepository.findByNumero(numero)
-                .orElseThrow(() -> new ApoliceNaoEncontradaException(String.format("Apólice não encontrada para o número: " + numero)));
+                .orElseThrow(() -> new ApoliceNaoEncontradaException(
+                        Messages.get("apolice.nao.encontrada.numero", numero)
+                ));
+
         ApoliceMapper.copiarParaPropriedades(apoliceAtualizada, apolice);
         apolice = apoliceRepository.save(apolice);
 
@@ -57,7 +64,9 @@ public class ApoliceServiceImpl implements IApoliceService
     public void remover(String numero)
     {
         Apolice apolice = apoliceRepository.findByNumero(numero)
-                .orElseThrow(() -> new ApoliceNaoEncontradaException(String.format("Apólice não encontrada para o número: " + numero)));
+                .orElseThrow(() -> new ApoliceNaoEncontradaException(
+                        Messages.get("apolice.nao.encontrada.numero", numero)
+                ));
 
         apoliceRepository.deleteById(apolice.getId());
     }
@@ -67,7 +76,6 @@ public class ApoliceServiceImpl implements IApoliceService
     public List<ApoliceResponseDto> listarTodos()
     {
         List<Apolice> apolices = apoliceRepository.findAll();
-
         return apolices.stream()
                 .map(ApoliceMapper::converter)
                 .toList();
@@ -78,7 +86,9 @@ public class ApoliceServiceImpl implements IApoliceService
     public ApoliceResponseDto buscarPorNumero(String numero)
     {
         Apolice apolice = apoliceRepository.findByNumero(numero)
-                .orElseThrow(() -> new ApoliceNaoEncontradaException(String.format("Apólice não encontrada para o número: " + numero)));
+                .orElseThrow(() -> new ApoliceNaoEncontradaException(
+                        Messages.get("apolice.nao.encontrada.numero", numero)
+                ));
 
         return ApoliceMapper.converter(apolice);
     }

@@ -6,6 +6,7 @@ import br.dev.paulowolfgang.gestao_apolices.dto.response.ClienteResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.entity.Cliente;
 import br.dev.paulowolfgang.gestao_apolices.entity.Usuario;
 import br.dev.paulowolfgang.gestao_apolices.exception.ClienteNaoEncontradoException;
+import br.dev.paulowolfgang.gestao_apolices.infra.i18n.Messages;
 import br.dev.paulowolfgang.gestao_apolices.repository.IClienteRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.IClienteService;
 import org.springframework.security.core.Authentication;
@@ -31,8 +32,11 @@ public class ClienteServiceImpl implements IClienteService
     {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new IllegalStateException("Usuário não autenticado no sistema.");
+        if (authentication == null || !authentication.isAuthenticated())
+        {
+            throw new IllegalStateException(
+                    Messages.get("usuario.nao.autenticado")
+            );
         }
 
         Usuario usuarioLogado = (Usuario) authentication.getPrincipal();
@@ -49,7 +53,10 @@ public class ClienteServiceImpl implements IClienteService
     public ClienteResponseDto atualizar(Long id, ClienteRequestDto clienteRequestDto)
     {
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new ClienteNaoEncontradoException(String.format("Cliente não encontrado para o ID: " + id)));
+                .orElseThrow(() -> new ClienteNaoEncontradoException(
+                        Messages.get("cliente.nao.encontrado", id)
+                ));
+
         ClienteMapper.copiarParaPropriedades(clienteRequestDto, cliente);
         cliente = clienteRepository.save(cliente);
 
@@ -60,8 +67,11 @@ public class ClienteServiceImpl implements IClienteService
     @Transactional
     public void remover(Long id)
     {
-        if (!clienteRepository.existsById(id)) {
-            throw new ClienteNaoEncontradoException(String.format("Cliente não encontrado para o ID: " + id));
+        if (!clienteRepository.existsById(id))
+        {
+            throw new ClienteNaoEncontradoException(
+                    Messages.get("cliente.nao.encontrado", id)
+            );
         }
 
         clienteRepository.deleteById(id);
@@ -83,7 +93,9 @@ public class ClienteServiceImpl implements IClienteService
     public ClienteResponseDto buscarPorId(Long id)
     {
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new ClienteNaoEncontradoException(String.format("Cliente não encontrado para o ID: " + id)));
+                .orElseThrow(() -> new ClienteNaoEncontradoException(
+                        Messages.get("cliente.nao.encontrado", id)
+                ));
 
         return ClienteMapper.converter(cliente);
     }

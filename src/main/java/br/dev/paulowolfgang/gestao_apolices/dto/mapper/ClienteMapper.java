@@ -9,6 +9,7 @@ import br.dev.paulowolfgang.gestao_apolices.dto.response.ClienteResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.entity.Cliente;
 import br.dev.paulowolfgang.gestao_apolices.entity.ClienteFisico;
 import br.dev.paulowolfgang.gestao_apolices.entity.ClienteJuridico;
+import br.dev.paulowolfgang.gestao_apolices.infra.i18n.Messages;
 import org.modelmapper.ModelMapper;
 
 public class ClienteMapper
@@ -26,7 +27,7 @@ public class ClienteMapper
             return mapper.map(request, ClienteJuridico.class);
         }
 
-        throw new IllegalArgumentException("Tipo de ClienteRequestDto desconhecido.");
+        throw new IllegalArgumentException(Messages.get("101"));
     }
 
     public static ClienteResponseDto converter(Cliente cliente)
@@ -40,7 +41,7 @@ public class ClienteMapper
             return mapper.map(cliente, ClienteJuridicoResponseDto.class);
         }
 
-        throw new IllegalArgumentException("Tipo de Cliente desconhecido.");
+        throw new IllegalArgumentException(Messages.get("102"));
     }
 
     public static void copiarParaPropriedades(ClienteRequestDto dto, Cliente cliente)
@@ -68,7 +69,7 @@ public class ClienteMapper
         }
         else
         {
-            throw new IllegalArgumentException("Tipo de cliente incompatível para cópia de propriedades.");
+            throw new IllegalArgumentException(Messages.get("103"));
         }
     }
 }

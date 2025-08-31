@@ -7,6 +7,7 @@ import br.dev.paulowolfgang.gestao_apolices.entity.Apolice;
 import br.dev.paulowolfgang.gestao_apolices.entity.Sinistro;
 import br.dev.paulowolfgang.gestao_apolices.exception.ApoliceNaoEncontradaException;
 import br.dev.paulowolfgang.gestao_apolices.exception.SinistroNaoEncontradoException;
+import br.dev.paulowolfgang.gestao_apolices.infra.i18n.Messages;
 import br.dev.paulowolfgang.gestao_apolices.repository.IApoliceRepository;
 import br.dev.paulowolfgang.gestao_apolices.repository.ISinistroRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.ISinistroService;
@@ -32,7 +33,10 @@ public class SinistroServiceImpl implements ISinistroService
     public SinistroResponseDto salvar(SinistroRequestDto request)
     {
         Apolice apolice = apoliceRepository.findByNumero(request.getApoliceNumero())
-                .orElseThrow(() -> new ApoliceNaoEncontradaException("Apólice não encontrada com o número: " + request.getApoliceNumero()));
+                .orElseThrow(() -> new ApoliceNaoEncontradaException(
+                        Messages.get("apolice.nao.encontrada", request.getApoliceNumero())
+                ));
+
         Sinistro sinistro = SinistroMapper.converter(request);
         sinistro.setApolice(apolice);
         sinistro = sinistroRepository.save(sinistro);
@@ -45,7 +49,10 @@ public class SinistroServiceImpl implements ISinistroService
     public SinistroResponseDto atualizar(String numero, SinistroRequestDto sinistroAtualizado)
     {
         Sinistro sinistro = sinistroRepository.findByNumero(numero)
-                .orElseThrow(() -> new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o número: " + numero)));
+                .orElseThrow(() -> new SinistroNaoEncontradoException(
+                        Messages.get("sinistro.nao.encontrado", numero)
+                ));
+
         SinistroMapper.copiarParaPropriedades(sinistroAtualizado, sinistro);
         sinistro = sinistroRepository.save(sinistro);
 
@@ -57,7 +64,9 @@ public class SinistroServiceImpl implements ISinistroService
     public void remover(String numero)
     {
         Sinistro sinistro = sinistroRepository.findByNumero(numero)
-                .orElseThrow(() -> new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o número: " + numero)));
+                .orElseThrow(() -> new SinistroNaoEncontradoException(
+                        Messages.get("sinistro.nao.encontrado", numero)
+                ));
 
         sinistroRepository.deleteById(sinistro.getId());
     }
@@ -67,7 +76,6 @@ public class SinistroServiceImpl implements ISinistroService
     public List<SinistroResponseDto> listarTodos()
     {
         List<Sinistro> sinistros = sinistroRepository.findAll();
-
         return sinistros.stream()
                 .map(SinistroMapper::converter)
                 .toList();
@@ -78,7 +86,9 @@ public class SinistroServiceImpl implements ISinistroService
     public SinistroResponseDto buscarPorNumero(String numero)
     {
         Sinistro sinistro = sinistroRepository.findByNumero(numero)
-                .orElseThrow(() -> new SinistroNaoEncontradoException(String.format("Sinistro não encontrado para o número: " + numero)));
+                .orElseThrow(() -> new SinistroNaoEncontradoException(
+                        Messages.get("sinistro.nao.encontrado", numero)
+                ));
 
         return SinistroMapper.converter(sinistro);
     }

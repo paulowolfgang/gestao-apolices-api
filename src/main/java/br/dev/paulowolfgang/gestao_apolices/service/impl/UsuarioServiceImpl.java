@@ -5,6 +5,7 @@ import br.dev.paulowolfgang.gestao_apolices.dto.request.UsuarioRequestDto;
 import br.dev.paulowolfgang.gestao_apolices.dto.response.UsuarioResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.entity.Usuario;
 import br.dev.paulowolfgang.gestao_apolices.exception.UsuarioNaoEncontradoException;
+import br.dev.paulowolfgang.gestao_apolices.infra.i18n.Messages;
 import br.dev.paulowolfgang.gestao_apolices.repository.IUsuarioRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.IUsuarioService;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,10 @@ public class UsuarioServiceImpl implements IUsuarioService
     public UsuarioResponseDto atualizar(Long id, UsuarioRequestDto usuarioAtualizado)
     {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new UsuarioNaoEncontradoException(String.format("Usuário não encontrado para o ID: " + id)));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(
+                        Messages.get("usuario.nao.encontrado", id)
+                ));
+
         UsuarioMapper.copiarParaPropriedades(usuarioAtualizado, usuario);
         usuario = usuarioRepository.save(usuario);
 
@@ -40,7 +44,9 @@ public class UsuarioServiceImpl implements IUsuarioService
     {
         if (!usuarioRepository.existsById(id))
         {
-            throw new UsuarioNaoEncontradoException(String.format("Usuário não encontrado para o ID: " + id));
+            throw new UsuarioNaoEncontradoException(
+                    Messages.get("usuario.nao.encontrado", id)
+            );
         }
 
         usuarioRepository.deleteById(id);
@@ -51,7 +57,6 @@ public class UsuarioServiceImpl implements IUsuarioService
     public List<UsuarioResponseDto> listarTodos()
     {
         List<Usuario> usuarios = usuarioRepository.findAll();
-
         return usuarios.stream()
                 .map(UsuarioMapper::converter)
                 .toList();
@@ -62,7 +67,9 @@ public class UsuarioServiceImpl implements IUsuarioService
     public UsuarioResponseDto buscarPorId(Long id)
     {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new UsuarioNaoEncontradoException(String.format("Usuário não encontrado para o ID: " + id)));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(
+                        Messages.get("usuario.nao.encontrado", id)
+                ));
 
         return UsuarioMapper.converter(usuario);
     }

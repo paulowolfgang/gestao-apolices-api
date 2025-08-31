@@ -7,6 +7,7 @@ import br.dev.paulowolfgang.gestao_apolices.entity.Apolice;
 import br.dev.paulowolfgang.gestao_apolices.entity.Pagamento;
 import br.dev.paulowolfgang.gestao_apolices.exception.ApoliceNaoEncontradaException;
 import br.dev.paulowolfgang.gestao_apolices.exception.PagamentoNaoEncontradoException;
+import br.dev.paulowolfgang.gestao_apolices.infra.i18n.Messages;
 import br.dev.paulowolfgang.gestao_apolices.repository.IApoliceRepository;
 import br.dev.paulowolfgang.gestao_apolices.repository.IPagamentoRepository;
 import br.dev.paulowolfgang.gestao_apolices.service.IPagamentoService;
@@ -18,6 +19,7 @@ import java.util.List;
 @Service
 public class PagamentoServiceImpl implements IPagamentoService
 {
+
     private final IPagamentoRepository pagamentoRepository;
     private final IApoliceRepository apoliceRepository;
 
@@ -32,7 +34,10 @@ public class PagamentoServiceImpl implements IPagamentoService
     public PagamentoResponseDto salvar(PagamentoRequestDto request)
     {
         Apolice apolice = apoliceRepository.findByNumero(request.getApoliceNumero())
-                .orElseThrow(() -> new ApoliceNaoEncontradaException("Apólice não encontrada com o número: " + request.getApoliceNumero()));
+                .orElseThrow(() -> new ApoliceNaoEncontradaException(
+                        Messages.get("apolice.nao.encontrada", request.getApoliceNumero())
+                ));
+
         Pagamento pagamento = PagamentoMapper.converter(request);
         pagamento.setApolice(apolice);
         pagamento = pagamentoRepository.save(pagamento);
@@ -45,7 +50,10 @@ public class PagamentoServiceImpl implements IPagamentoService
     public PagamentoResponseDto atualizar(String numero, PagamentoRequestDto pagamentoAtualizado)
     {
         Pagamento pagamento = pagamentoRepository.findByNumero(numero)
-                .orElseThrow(() -> new PagamentoNaoEncontradoException(String.format("Pagamento não encontrado para o número: " + numero)));
+                .orElseThrow(() -> new PagamentoNaoEncontradoException(
+                        Messages.get("pagamento.nao.encontrado", numero)
+                ));
+
         PagamentoMapper.copiarParaPropriedades(pagamentoAtualizado, pagamento);
         pagamento = pagamentoRepository.save(pagamento);
 
@@ -57,7 +65,9 @@ public class PagamentoServiceImpl implements IPagamentoService
     public void remover(String numero)
     {
         Pagamento pagamento = pagamentoRepository.findByNumero(numero)
-                .orElseThrow(() -> new PagamentoNaoEncontradoException(String.format("Pagamento não encontrado para o número: " + numero)));
+                .orElseThrow(() -> new PagamentoNaoEncontradoException(
+                        Messages.get("pagamento.nao.encontrado", numero)
+                ));
 
         pagamentoRepository.deleteById(pagamento.getId());
     }
@@ -78,7 +88,9 @@ public class PagamentoServiceImpl implements IPagamentoService
     public PagamentoResponseDto buscarPorNumero(String numero)
     {
         Pagamento pagamento = pagamentoRepository.findByNumero(numero)
-                .orElseThrow(() -> new PagamentoNaoEncontradoException(String.format("Pagamento não encontrado para o número: " + numero)));
+                .orElseThrow(() -> new PagamentoNaoEncontradoException(
+                        Messages.get("pagamento.nao.encontrado", numero)
+                ));
 
         return PagamentoMapper.converter(pagamento);
     }

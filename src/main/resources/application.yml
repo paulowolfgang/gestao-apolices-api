@@ -13,3 +13,7 @@ spring:
       password: admin123
     token:
       secret: my-secret-key
+  messages:
+    basename: messages
+    encoding: UTF-8
+    fallback-to-system-locale: false
