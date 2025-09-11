@@ -16,6 +16,6 @@ public class Messages
 
     public static String get(String code, Object... args)
     {
-        return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
+        return messageSource.getMessage(code, args, code, LocaleContextHolder.getLocale());
     }
 }

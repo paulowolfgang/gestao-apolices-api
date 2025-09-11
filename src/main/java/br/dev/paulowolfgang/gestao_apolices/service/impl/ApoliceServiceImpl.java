@@ -50,7 +50,7 @@ public class ApoliceServiceImpl implements IApoliceService
     {
         Apolice apolice = apoliceRepository.findByNumero(numero)
                 .orElseThrow(() -> new ApoliceNaoEncontradaException(
-                        Messages.get("apolice.nao.encontrada.numero", numero)
+                        Messages.get("apolice.nao.encontrada", numero)
                 ));
 
         ApoliceMapper.copiarParaPropriedades(apoliceAtualizada, apolice);
@@ -65,7 +65,7 @@ public class ApoliceServiceImpl implements IApoliceService
     {
         Apolice apolice = apoliceRepository.findByNumero(numero)
                 .orElseThrow(() -> new ApoliceNaoEncontradaException(
-                        Messages.get("apolice.nao.encontrada.numero", numero)
+                        Messages.get("apolice.nao.encontrada", numero)
                 ));
 
         apoliceRepository.deleteById(apolice.getId());
@@ -87,7 +87,7 @@ public class ApoliceServiceImpl implements IApoliceService
     {
         Apolice apolice = apoliceRepository.findByNumero(numero)
                 .orElseThrow(() -> new ApoliceNaoEncontradaException(
-                        Messages.get("apolice.nao.encontrada.numero", numero)
+                        Messages.get("apolice.nao.encontrada", numero)
                 ));
 
         return ApoliceMapper.converter(apolice);
