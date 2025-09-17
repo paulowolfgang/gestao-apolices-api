@@ -1,7 +1,7 @@
 package br.dev.paulowolfgang.gestao_apolices.service.impl;
 
 import br.dev.paulowolfgang.gestao_apolices.repository.IUsuarioRepository;
-import br.dev.paulowolfgang.gestao_apolices.infra.i18n.Messages; // utilitário que criamos
+import br.dev.paulowolfgang.gestao_apolices.infra.i18n.Messages;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
