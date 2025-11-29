@@ -17,6 +17,27 @@ services:
     networks:
       - seguradora-network
 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: seguradora-app
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/seguradora?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_SECURITY_USER: admin
+      SPRING_SECURITY_PASSWORD: admin123
+      TOKEN_SECRET: my-secret-key
+    networks:
+      - seguradora-network
+
 volumes:
   mysql-data:
     driver: local
