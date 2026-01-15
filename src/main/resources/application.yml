@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/seguradora?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true}
+    username: ${SPRING_DATASOURCE_USERNAME:user}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -15,7 +15,7 @@ spring:
       password: ${SPRING_SECURITY_PASSWORD:admin123}
 
     token:
-      secret: ${TOKEN_SECRET:my-secret-key}   # <-- ESSA LINHA CORRIGE O ERRO
+      secret: ${TOKEN_SECRET:my-secret-key}
 
 messages:
   basename: messages/messages
