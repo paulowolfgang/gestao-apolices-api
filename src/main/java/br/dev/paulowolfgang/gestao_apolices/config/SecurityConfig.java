@@ -32,6 +32,18 @@ public class SecurityConfig
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        // Libera acesso às rotas do Swagger UI e OpenAPI
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/api-docs/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
+                        // Libera requisições OPTIONS para todas as rotas (necessário para Swagger UI)
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Rotas existentes
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/entrar").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/registrar").hasRole("SUPER_ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/v1/usuarios/**").hasRole("SUPER_ADMIN")

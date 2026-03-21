@@ -19,7 +19,6 @@ public class SecurityFilter extends OncePerRequestFilter
 {
     TokenService tokenService;
     IUsuarioRepository usuarioRepository;
-
     private final TokenBlacklistService tokenBlacklistService;
 
     public SecurityFilter(TokenService tokenService, IUsuarioRepository usuarioRepository, TokenBlacklistService tokenBlacklistService)
@@ -33,6 +32,19 @@ public class SecurityFilter extends OncePerRequestFilter
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException
     {
+        String path = request.getRequestURI();
+
+        // Ignora rotas do Swagger - NÃO aplica filtro de autenticação
+        if (path.startsWith("/swagger-ui") ||
+                path.startsWith("/api-docs") ||
+                path.startsWith("/v3/api-docs") ||
+                path.startsWith("/swagger-resources") ||
+                path.startsWith("/webjars"))
+        {
+            filterChain.doFilter(request, response);
+
+            return;
+        }
 
         var token = this.recoverToken(request);
 

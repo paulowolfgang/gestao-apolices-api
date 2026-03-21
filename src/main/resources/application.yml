@@ -17,6 +17,26 @@ spring:
     token:
       secret: ${TOKEN_SECRET:my-secret-key}
 
+# SpringDoc OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+    try-it-out-enabled: true
+    filter: true
+    # Remove a configuração oauth2-redirect-url se não estiver usando OAuth2
+  packages-to-scan: br.dev.paulowolfgang.gestao_apolices
+  paths-to-match: /api/v1/**
+  show-actuator: false
+  writer-with-default-pretty-printer: true
+  # Desabilita CSRF para o Swagger
+  disable-swagger-default-url: true
+
 messages:
   basename: messages/messages
   encoding: UTF-8
