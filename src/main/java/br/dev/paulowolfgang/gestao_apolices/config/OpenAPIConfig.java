@@ -52,10 +52,7 @@ public class OpenAPIConfig
                 .servers(List.of(
                         new Server()
                                 .url("http://localhost:8080")
-                                .description("Servidor de Desenvolvimento"),
-                        new Server()
-                                .url("${API_PROD_URL:https://api.seguradora.example.com}")
-                                .description("Servidor de Produção")
+                                .description("Servidor de Desenvolvimento")
                 ))
                 .addSecurityItem(new SecurityRequirement()
                         .addList("bearerAuth"))

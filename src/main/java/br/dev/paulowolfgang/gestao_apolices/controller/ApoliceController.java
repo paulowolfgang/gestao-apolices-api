@@ -1,5 +1,6 @@
 package br.dev.paulowolfgang.gestao_apolices.controller;
 
+import br.dev.paulowolfgang.gestao_apolices.controller.docs.ApoliceControllerDoc;
 import br.dev.paulowolfgang.gestao_apolices.dto.request.ApoliceRequestDto;
 import br.dev.paulowolfgang.gestao_apolices.dto.response.ApoliceResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.service.IApoliceService;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/apolices")
-public class ApoliceController
+public class ApoliceController implements ApoliceControllerDoc
 {
     private final IApoliceService apoliceService;
 
@@ -20,19 +21,23 @@ public class ApoliceController
         this.apoliceService = apoliceService;
     }
 
-    @PostMapping
+    @Override
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<ApoliceResponseDto> salvar(@RequestBody ApoliceRequestDto request)
     {
         ApoliceResponseDto response = apoliceService.salvar(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{numero}")
-    public ResponseEntity<ApoliceResponseDto> atualizar(@PathVariable String numero, @RequestBody ApoliceRequestDto request)
+    @Override
+    @PutMapping(value = "/{numero}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<ApoliceResponseDto> atualizar(@PathVariable String numero,
+                                                        @RequestBody ApoliceRequestDto request)
     {
         return ResponseEntity.status(HttpStatus.OK).body(apoliceService.atualizar(numero, request));
     }
 
+    @Override
     @DeleteMapping("/{numero}")
     public ResponseEntity<Void> remover(@PathVariable String numero)
     {
@@ -40,13 +45,15 @@ public class ApoliceController
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping
+    @Override
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<ApoliceResponseDto>> listarTodos()
     {
         return ResponseEntity.status(HttpStatus.OK).body(apoliceService.listarTodos());
     }
 
-    @GetMapping("/numero/{numero}")
+    @Override
+    @GetMapping(value = "/numero/{numero}", produces = "application/json")
     public ResponseEntity<ApoliceResponseDto> buscarPorNumero(@PathVariable String numero)
     {
         return ResponseEntity.status(HttpStatus.OK).body(apoliceService.buscarPorNumero(numero));
