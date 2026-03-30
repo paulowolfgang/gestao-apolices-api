@@ -1,5 +1,6 @@
 package br.dev.paulowolfgang.gestao_apolices.controller;
 
+import br.dev.paulowolfgang.gestao_apolices.controller.docs.PagamentoControllerDoc;
 import br.dev.paulowolfgang.gestao_apolices.dto.request.PagamentoRequestDto;
 import br.dev.paulowolfgang.gestao_apolices.dto.response.PagamentoResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.service.IPagamentoService;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/pagamentos")
-public class PagamentoController
+public class PagamentoController implements PagamentoControllerDoc
 {
     private final IPagamentoService pagamentoService;
 
@@ -20,14 +21,16 @@ public class PagamentoController
         this.pagamentoService = pagamentoService;
     }
 
-    @PostMapping
+    @Override
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<PagamentoResponseDto> salvar(@RequestBody PagamentoRequestDto request)
     {
         PagamentoResponseDto response = pagamentoService.salvar(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{numero}")
+    @Override
+    @PutMapping(value = "/{numero}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<PagamentoResponseDto> atualizar(@PathVariable String numero, @RequestBody PagamentoRequestDto request)
     {
          return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.atualizar(numero, request));
@@ -40,13 +43,15 @@ public class PagamentoController
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping
+    @Override
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<PagamentoResponseDto>> listarTodos()
     {
         return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.listarTodos());
     }
 
-    @GetMapping("/{numero}")
+    @Override
+    @GetMapping(value = "/{numero}", produces = "application/json")
     public ResponseEntity<PagamentoResponseDto> buscarPorNumero(@PathVariable String numero)
     {
         return ResponseEntity.status(HttpStatus.OK).body(pagamentoService.buscarPorNumero(numero));

@@ -1,5 +1,6 @@
 package br.dev.paulowolfgang.gestao_apolices.controller;
 
+import br.dev.paulowolfgang.gestao_apolices.controller.docs.ClienteControllerDoc;
 import br.dev.paulowolfgang.gestao_apolices.dto.request.ClienteRequestDto;
 import br.dev.paulowolfgang.gestao_apolices.dto.response.ClienteResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.service.IClienteService;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/clientes")
-public class ClienteController
+public class ClienteController implements ClienteControllerDoc
 {
     private final IClienteService clienteService;
 
@@ -20,19 +21,22 @@ public class ClienteController
         this.clienteService = clienteService;
     }
 
-    @PostMapping
+    @Override
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<ClienteResponseDto> salvar(@RequestBody ClienteRequestDto request)
     {
         ClienteResponseDto response = clienteService.salvar(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{id}")
+    @Override
+    @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<ClienteResponseDto> atualizar(@PathVariable Long id, @RequestBody ClienteRequestDto request)
     {
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.atualizar(id, request));
     }
 
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remover(@PathVariable Long id)
     {
@@ -40,13 +44,15 @@ public class ClienteController
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping
+    @Override
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<ClienteResponseDto>> listarTodos()
     {
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.listarTodos());
     }
 
-    @GetMapping("/{id}")
+    @Override
+    @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<ClienteResponseDto> buscarPorId(@PathVariable Long id)
     {
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.buscarPorId(id));

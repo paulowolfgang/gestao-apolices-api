@@ -1,5 +1,6 @@
 package br.dev.paulowolfgang.gestao_apolices.controller;
 
+import br.dev.paulowolfgang.gestao_apolices.controller.docs.SinistroControllerDoc;
 import br.dev.paulowolfgang.gestao_apolices.dto.request.SinistroRequestDto;
 import br.dev.paulowolfgang.gestao_apolices.dto.response.SinistroResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.service.ISinistroService;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/sinistros")
-public class SinistroController
+public class SinistroController implements SinistroControllerDoc
 {
     private final ISinistroService sinistroService;
 
@@ -20,14 +21,16 @@ public class SinistroController
         this.sinistroService = sinistroService;
     }
 
-    @PostMapping
+    @Override
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<SinistroResponseDto> salvar(@RequestBody SinistroRequestDto request)
     {
         SinistroResponseDto response = sinistroService.salvar(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{numero}")
+    @Override
+    @PutMapping(value = "/{numero}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<SinistroResponseDto> atualizar(@PathVariable String numero, @RequestBody SinistroRequestDto request)
     {
         return ResponseEntity.status(HttpStatus.OK).body(sinistroService.atualizar(numero, request));
@@ -40,13 +43,15 @@ public class SinistroController
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping
+    @Override
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<SinistroResponseDto>> listarTodos()
     {
         return ResponseEntity.status(HttpStatus.OK).body(sinistroService.listarTodos());
     }
 
-    @GetMapping("/{numero}")
+    @Override
+    @GetMapping(value = "/{numero}", produces = "application/json")
     public ResponseEntity<SinistroResponseDto> buscarPorNumero(@PathVariable String numero)
     {
         return ResponseEntity.status(HttpStatus.OK).body(sinistroService.buscarPorNumero(numero));

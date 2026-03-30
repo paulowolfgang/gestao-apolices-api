@@ -1,5 +1,6 @@
 package br.dev.paulowolfgang.gestao_apolices.controller;
 
+import br.dev.paulowolfgang.gestao_apolices.controller.docs.UsuarioControllerDoc;
 import br.dev.paulowolfgang.gestao_apolices.dto.request.UsuarioRequestDto;
 import br.dev.paulowolfgang.gestao_apolices.dto.response.UsuarioResponseDto;
 import br.dev.paulowolfgang.gestao_apolices.service.IUsuarioService;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/usuarios")
-public class UsuarioController
+public class UsuarioController implements UsuarioControllerDoc
 {
     private final IUsuarioService usuarioService;
 
@@ -20,7 +21,8 @@ public class UsuarioController
         this.usuarioService = usuarioService;
     }
 
-    @PutMapping("/{id}")
+    @Override
+    @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<UsuarioResponseDto> atualizar(@PathVariable Long id, @RequestBody UsuarioRequestDto request)
     {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.atualizar(id, request));
@@ -33,13 +35,15 @@ public class UsuarioController
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping
+    @Override
+    @GetMapping(produces = "application/json")
     public ResponseEntity<List<UsuarioResponseDto>> listarTodos()
     {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.listarTodos());
     }
 
-    @GetMapping("/{id}")
+    @Override
+    @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<UsuarioResponseDto> buscarPorId(@PathVariable Long id)
     {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.buscarPorId(id));

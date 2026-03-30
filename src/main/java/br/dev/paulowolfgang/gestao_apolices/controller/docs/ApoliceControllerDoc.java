@@ -26,8 +26,8 @@ public interface ApoliceControllerDoc
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Dados da apólice",
                     required = true
-            )
-            ApoliceRequestDto request);
+            ) ApoliceRequestDto request
+    );
 
 
     @Operation(summary = "Atualizar apólice")
@@ -36,19 +36,18 @@ public interface ApoliceControllerDoc
             @ApiResponse(responseCode = "404", description = "Apólice não encontrada.")
     })
     ResponseEntity<ApoliceResponseDto> atualizar(
-            @Parameter(description = "Número da apólice", example = "AP123456")
-            String numero,
-            ApoliceRequestDto request);
+            @Parameter(description = "Número da apólice", example = "AP123456") String numero, ApoliceRequestDto request
+    );
 
 
     @Operation(summary = "Remover apólice")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Apólice Removida com sucesso."),
+            @ApiResponse(responseCode = "204", description = "Apólice removida com sucesso."),
             @ApiResponse(responseCode = "404", description = "Apólice não encontrada.")
     })
     ResponseEntity<Void> remover(
-            @Parameter(description = "Número da apólice", example = "AP123456")
-            String numero);
+            @Parameter(description = "Número da apólice", example = "AP123456") String numero
+    );
 
 
     @Operation(summary = "Listar todas as apólices")
@@ -62,6 +61,6 @@ public interface ApoliceControllerDoc
             @ApiResponse(responseCode = "404", description = "Apólice não encontrada.")
     })
     ResponseEntity<ApoliceResponseDto> buscarPorNumero(
-            @Parameter(description = "Número da apólice", example = "AP123456")
-            String numero);
+            @Parameter(description = "Número da apólice", example = "AP123456") String numero
+    );
 }
